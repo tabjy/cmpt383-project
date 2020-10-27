@@ -54,6 +54,11 @@
     </dependency>
   </dependencies>
   <build>
+    <resources>
+      <resource>
+        <directory>${project.build.directory}/generated-resources/assets/resources</directory>
+      </resource>
+    </resources>
     <plugins>
       <plugin>
         <groupId>io.quarkus</groupId>
