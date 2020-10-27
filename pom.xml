@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.tabjy</groupId>
   <artifactId>cmpt383-project</artifactId>
@@ -113,76 +114,12 @@
               </execution>
             </executions>
           </plugin>
-          <plugin>
-            <groupId>com.github.eirslett</groupId>
-            <artifactId>frontend-maven-plugin</artifactId>
-            <version>${com.github.eirslett.frontend.plugin.version}</version>
-            <configuration>
-              <workingDirectory>${project.basedir}/web-client</workingDirectory>
-              <installDirectory>${project.basedir}/bin</installDirectory>
-            </configuration>
-            <executions>
-              <execution>
-                <id>install node and npm</id>
-                <phase>initialize</phase>
-                <goals>
-                  <goal>install-node-and-yarn</goal>
-                </goals>
-                <configuration>
-                  <nodeVersion>${node.version}</nodeVersion>
-                  <yarnVersion>${yarn.version}</yarnVersion>
-                </configuration>
-              </execution>
-              <execution>
-                <id>yarn install</id>
-                <phase>initialize</phase>
-                <goals>
-                  <goal>yarn</goal>
-                </goals>
-                <configuration>
-                  <arguments>
-                    install --frozen-lockfile
-                  </arguments>
-                </configuration>
-              </execution>
-              <execution>
-                <id>yarn run build</id>
-                <phase>prepare-package</phase>
-                <goals>
-                  <goal>yarn</goal>
-                </goals>
-                <configuration>
-                  <arguments>run build</arguments>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <artifactId>maven-resources-plugin</artifactId>
-            <version>${org.apache.maven.plugins.resources.version}</version>
-            <executions>
-              <execution>
-                <id>copy-web-client-resources</id>
-                <phase>prepare-package</phase>
-                <goals>
-                  <goal>copy-resources</goal>
-                </goals>
-                <configuration>
-                  <resources>
-                    <resource>
-                      <directory>web-client/dist</directory>
-                    </resource>
-                  </resources>
-                  <outputDirectory>${project.build.directory}/assets/app/resources/com/redhat/rhjmc/containerjfr/net/web</outputDirectory>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
         </plugins>
       </build>
       <properties>
         <quarkus.package.type>native</quarkus.package.type>
-        <quarkus.native.additional-build-args>-H:IncludeResources=.*</quarkus.native.additional-build-args>
+        <quarkus.native.additional-build-args>-H:IncludeResources=^META-INF/resources/.*$
+        </quarkus.native.additional-build-args>
       </properties>
     </profile>
   </profiles>
