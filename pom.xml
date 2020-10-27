@@ -17,6 +17,10 @@
     <quarkus-plugin.version>1.9.0.Final</quarkus-plugin.version>
     <compiler-plugin.version>3.8.1</compiler-plugin.version>
     <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
+
+    <com.github.eirslett.frontend.plugin.version>1.9.1</com.github.eirslett.frontend.plugin.version>
+    <node.version>v12.5.0</node.version>
+    <yarn.version>v1.22.10</yarn.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -37,6 +41,10 @@
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-arc</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-vertx-web</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
@@ -105,10 +113,76 @@
               </execution>
             </executions>
           </plugin>
+          <plugin>
+            <groupId>com.github.eirslett</groupId>
+            <artifactId>frontend-maven-plugin</artifactId>
+            <version>${com.github.eirslett.frontend.plugin.version}</version>
+            <configuration>
+              <workingDirectory>${project.basedir}/web-client</workingDirectory>
+              <installDirectory>${project.basedir}/bin</installDirectory>
+            </configuration>
+            <executions>
+              <execution>
+                <id>install node and npm</id>
+                <phase>initialize</phase>
+                <goals>
+                  <goal>install-node-and-yarn</goal>
+                </goals>
+                <configuration>
+                  <nodeVersion>${node.version}</nodeVersion>
+                  <yarnVersion>${yarn.version}</yarnVersion>
+                </configuration>
+              </execution>
+              <execution>
+                <id>yarn install</id>
+                <phase>initialize</phase>
+                <goals>
+                  <goal>yarn</goal>
+                </goals>
+                <configuration>
+                  <arguments>
+                    install --frozen-lockfile
+                  </arguments>
+                </configuration>
+              </execution>
+              <execution>
+                <id>yarn run build</id>
+                <phase>prepare-package</phase>
+                <goals>
+                  <goal>yarn</goal>
+                </goals>
+                <configuration>
+                  <arguments>run build</arguments>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <artifactId>maven-resources-plugin</artifactId>
+            <version>${org.apache.maven.plugins.resources.version}</version>
+            <executions>
+              <execution>
+                <id>copy-web-client-resources</id>
+                <phase>prepare-package</phase>
+                <goals>
+                  <goal>copy-resources</goal>
+                </goals>
+                <configuration>
+                  <resources>
+                    <resource>
+                      <directory>web-client/dist</directory>
+                    </resource>
+                  </resources>
+                  <outputDirectory>${project.build.directory}/assets/app/resources/com/redhat/rhjmc/containerjfr/net/web</outputDirectory>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
         </plugins>
       </build>
       <properties>
         <quarkus.package.type>native</quarkus.package.type>
+        <quarkus.native.additional-build-args>-H:IncludeResources=.*</quarkus.native.additional-build-args>
       </properties>
     </profile>
   </profiles>
