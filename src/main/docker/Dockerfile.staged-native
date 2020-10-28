@@ -8,10 +8,18 @@ RUN chown -R quarkus /usr/src/app
 USER quarkus
 RUN mvn -f /usr/src/app/pom.xml -Pnative package
 
-# Stage 2 : create the docker final image
+# Stage 2 : download docker client
+FROM registry.access.redhat.com/ubi8/ubi-minimal:8.1 AS docker-builder
+WORKDIR /
+RUN microdnf install wget tar gzip \
+    && wget https://download.docker.com/linux/static/stable/x86_64/docker-19.03.9.tgz \
+    && tar xzvf docker-19.03.9.tgz
+
+# Stage 3 : create the docker final image
 FROM registry.access.redhat.com/ubi8/ubi-minimal:8.1
 WORKDIR /work/
 COPY --from=graal-builder /usr/src/app/target/*-runner /work/application
+COPY --from=docker-builder /docker/docker /usr/bin/
 
 # set up permissions for user `1001`
 RUN chmod 775 /work /work/application \
@@ -20,6 +28,10 @@ RUN chmod 775 /work /work/application \
   && chown -R 1001:root /work
 
 EXPOSE 8080
-USER 1001
+#USER 1001
+# ungly, until we can find a better solution
+USER 0
+# the application will create sibling containers
+VOLUME /var/run/docker.sock
 
 CMD ["./application", "-Dquarkus.http.host=0.0.0.0"]
