@@ -22,6 +22,9 @@
     <com.github.eirslett.frontend.plugin.version>1.9.1</com.github.eirslett.frontend.plugin.version>
     <node.version>v12.5.0</node.version>
     <yarn.version>v1.22.10</yarn.version>
+    <org.apache.maven.plugins.resources.version>3.1.0</org.apache.maven.plugins.resources.version>
+    <generated.resources.directory>${project.build.directory}/generated-resources/assets/resources</generated.resources.directory>
+    <generated.frontend.resources.directory>${generated.resources.directory}/META-INF/resources</generated.frontend.resources.directory>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -56,7 +59,7 @@
   <build>
     <resources>
       <resource>
-        <directory>${project.build.directory}/generated-resources/assets/resources</directory>
+        <directory>${generated.resources.directory}</directory>
       </resource>
     </resources>
     <plugins>
@@ -87,6 +90,63 @@
             <maven.home>${maven.home}</maven.home>
           </systemPropertyVariables>
         </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>com.github.eirslett</groupId>
+        <artifactId>frontend-maven-plugin</artifactId>
+        <version>${com.github.eirslett.frontend.plugin.version}</version>
+        <configuration>
+          <workingDirectory>${project.basedir}/src/frontend</workingDirectory>
+          <installDirectory>${project.basedir}/target</installDirectory>
+        </configuration>
+        <executions>
+          <execution>
+            <id>install-node-and-npm</id>
+            <goals>
+              <goal>install-node-and-npm</goal>
+            </goals>
+            <configuration>
+              <nodeVersion>${node.version}</nodeVersion>
+            </configuration>
+          </execution>
+          <execution>
+            <id>npm-install</id>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>npm-run-generate</id>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+            <configuration>
+              <arguments>run build</arguments>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>${org.apache.maven.plugins.resources.version}</version>
+        <executions>
+          <execution>
+            <id>copy-frontend-resources</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <resources>
+                <resource>
+                  <directory>src/frontend/dist</directory>
+                </resource>
+              </resources>
+              <outputDirectory>${generated.frontend.resources.directory}</outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
