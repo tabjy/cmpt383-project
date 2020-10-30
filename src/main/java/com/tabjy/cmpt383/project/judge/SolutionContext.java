@@ -39,7 +39,6 @@ public class SolutionContext {
     }
 
     public ExecResult build() throws IOException {
-        outputFiles.clear();
         return buildStrategy.build(sourceFiles, outputFiles);
     }
 
