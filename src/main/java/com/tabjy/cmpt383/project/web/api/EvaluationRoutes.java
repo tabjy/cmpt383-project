@@ -21,14 +21,14 @@ public class EvaluationRoutes {
     static {
         LANGUAGE_TO_SOURCE_FILENAMES = Map.of(
                 "c", "main.c", //
-                "c++", "main.cpp", //
+                "cpp", "main.cpp", //
                 "javascript", "main.js", //
                 "python", "main.py" //
         );
 
         LANGUAGE_TO_OUTPUT_FILENAMES = Map.of(
                 "c", "main", //
-                "c++", "main", //
+                "cpp", "main", //
                 "javascript", "main.js", //
                 "python", "main.py" //
         );
@@ -37,6 +37,8 @@ public class EvaluationRoutes {
     // FIXME: POST is probably better
     @Route(methods = HttpMethod.GET, path = "/api/evaluate", type = Route.HandlerType.BLOCKING)
     public void evaluate(RoutingExchange re) {
+        re.response().putHeader("Access-Control-Allow-Origin", "*"); // FIXME: debug only!
+
         Optional<String> language = re.getParam("language");
         Optional<String> value = re.getParam("value");
 

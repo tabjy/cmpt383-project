@@ -11,7 +11,7 @@ public class RunStrategies {
     static {
         STRATEGY_MAP = Map.of( //
                 "c", NativeRunStrategy.class, //
-                "c++", NativeRunStrategy.class, //
+                "cpp", NativeRunStrategy.class, //
                 "javascript", NodejsRunStrategy.class, //
                 "python", PythonRunStrategy.class //
         );
