@@ -12,7 +12,8 @@ public class BuildStrategies {
         STRATEGY_MAP = Map.of( //
                 "c", CBuildStrategy.class, //
                 "c++", CppBuildStrategy.class, //
-                "javascript", InterpretedLanguageBuildStrategy.class //
+                "javascript", InterpretedLanguageBuildStrategy.class, //
+                "python", InterpretedLanguageBuildStrategy.class //
         );
     }
 
