@@ -7,11 +7,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.FileAttribute;
-import java.nio.file.attribute.PosixFilePermission;
 import java.nio.file.attribute.PosixFilePermissions;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 public class FileUtils {
     private final static String TEMP_DIR_PREFIX = "tabjy-cmpt383-project";
@@ -36,9 +34,14 @@ public class FileUtils {
         return true;
     }
 
+    public static Path createTempDirectory(String permission) throws IOException {
+        FileAttribute<?> permissions = PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString(permission));
+
+        return Files.createTempDirectory(TEMP_DIR_PREFIX, permissions);
+    }
+
     public static Path extractToTempDirectory(Map<String, byte[]> files, String permission) throws IOException {
-        Set<PosixFilePermission> ownerWritable = PosixFilePermissions.fromString(permission);
-        FileAttribute<?> permissions = PosixFilePermissions.asFileAttribute(ownerWritable);
+        FileAttribute<?> permissions = PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString(permission));
 
         Path dir = Files.createTempDirectory(TEMP_DIR_PREFIX, permissions);
         for (Map.Entry<String, byte[]> entry : files.entrySet()) {
@@ -51,8 +54,7 @@ public class FileUtils {
         return dir;
     }
 
-    public static Map<String, byte[]> collectFromTempDirectory(Path dir) throws IOException {
-        Map<String, byte[]> result = new HashMap<>();
+    public static Map<String, byte[]> collectFromTempDirectory(Path dir, Map<String, byte[]> result) throws IOException {
         File[] files = dir.toFile().listFiles();
         if (files == null) {
             return result;

@@ -10,9 +10,9 @@ public class BuildStrategies {
 
     static {
         STRATEGY_MAP = Map.of( //
-                "python", InterpretedLanguageBuildStrategy.class, //
-                "javascript", InterpretedLanguageBuildStrategy.class, //
-                "php", InterpretedLanguageBuildStrategy.class //
+                "c", CBuildStrategy.class, //
+                "c++", CppBuildStrategy.class, //
+                "javascript", InterpretedLanguageBuildStrategy.class //
         );
     }
 

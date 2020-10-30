@@ -8,16 +8,24 @@ import java.nio.charset.StandardCharsets;
 
 public class TestSolutionContext {
     public static void main(String[] args) throws IOException, LanguageNotSupportedException {
-        SolutionContext ctx = new SolutionContext();
-        ctx.setBuildStrategy(BuildStrategies.forLanguage("javascript"));
-        ctx.setRunStrategy(RunStrategies.forLanguage("javascript"));
+        String source = "#include <iostream>\n" +
+                "\n" +
+                "int main() {\n" +
+                "    std::cout << \"Hello World!\";\n" +
+                "    return 0;\n" +
+                "}";
 
-        ctx.addSourceFile("main.js", "console.log('hello');console.error('world');process.exit(2);".getBytes(StandardCharsets.UTF_8));
+        SolutionContext ctx = new SolutionContext();
+        ctx.setBuildStrategy(BuildStrategies.forLanguage("c++"));
+        ctx.setRunStrategy(RunStrategies.forLanguage("c++"));
+
+        ctx.addSourceFile("main.cpp", source.getBytes(StandardCharsets.UTF_8));
         ExecResult result = ctx.build();
         if (result.exitCode != 0) {
             System.err.println(result);
+            return;
         }
-        result = ctx.run("main.js", new String[0]);
+        result = ctx.run("main");
         System.out.println(result);
     }
 }

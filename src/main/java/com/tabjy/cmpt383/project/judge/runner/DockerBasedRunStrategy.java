@@ -30,7 +30,7 @@ public abstract class DockerBasedRunStrategy implements IRunStrategy {
 
     @Override
     public ExecResult run(Map<String, byte[]> outputFiles, String entryPoint, String[] args) throws IOException {
-        Path dir = FileUtils.extractToTempDirectory(outputFiles, "rwxr-xr-x");
+        Path dir = FileUtils.extractToTempDirectory(outputFiles, "rwxr-xr-x"); // 755
 
         String image = getContainerImageTag();
         Path workDir = getContainerWorkDirectory();
@@ -55,6 +55,7 @@ public abstract class DockerBasedRunStrategy implements IRunStrategy {
 
         System.arraycopy(args, 0, cmd, pos, args.length);
 
+        LOG.infov("exec command: {0}", String.join(" ", cmd));
         ExecResult result = SystemUtils.exec(cmd);
 
         if (!FileUtils.deleteRecursively(dir)) {

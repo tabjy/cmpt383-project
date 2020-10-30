@@ -39,7 +39,15 @@ public class SolutionContext {
     }
 
     public ExecResult build() throws IOException {
-        return buildStrategy.build(sourceFiles, outputFiles);
+        return build(new String[0]);
+    }
+
+    public ExecResult build(String[] additionalCompilerFlags) throws IOException {
+        return buildStrategy.build(additionalCompilerFlags, sourceFiles, outputFiles);
+    }
+
+    public ExecResult run(String entryPoint) throws IOException {
+        return run(entryPoint, new String[0]);
     }
 
     public ExecResult run(String entryPoint, String[] args) throws IOException {

@@ -6,7 +6,5 @@ import java.io.IOException;
 import java.util.Map;
 
 public interface IBuildStrategy {
-    void appendAdditionCompilerFlags(String[] flags);
-
-    ExecResult build(Map<String, byte[]> sourceFiles, Map<String, byte[]> outputFiles) throws IOException;
+    ExecResult build(String[] additionalCompilerFlags, Map<String, byte[]> sourceFiles, Map<String, byte[]> outputFiles) throws IOException;
 }
