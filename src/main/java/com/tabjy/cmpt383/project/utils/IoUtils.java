@@ -2,9 +2,8 @@ package com.tabjy.cmpt383.project.utils;
 
 import org.jboss.logging.Logger;
 
-import java.io.BufferedReader;
-import java.io.Closeable;
-import java.io.IOException;
+import java.io.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
@@ -27,21 +26,28 @@ public class IoUtils {
         }
     }
 
-    public static void collectInputStreamLines(BufferedReader reader, InputStreamLineReceiver receiver) {
+    public static CompletableFuture<Void> collectInputStreamLines(InputStream inputStream, InputStreamLineReceiver receiver) {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        CompletableFuture<Void> future = new CompletableFuture<>();
         STREAM_LINE_COLLECTION_EXECUTORS.submit(() -> {
             while (true) {
                 try {
                     String line = reader.readLine();
                     if (line == null) {
-                        return;
+                        break;
                     }
                     receiver.accept(line);
                 } catch (IOException e) {
                     LOG.warn(e);
-                    return;
+                    break;
                 }
             }
+
+            IoUtils.closeSilently(reader);
+            future.complete(null);
         });
+
+        return future;
     }
 
     public interface InputStreamLineReceiver extends Consumer<String> {

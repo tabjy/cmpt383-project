@@ -14,13 +14,13 @@ public class ExecResult {
         this.lines = lines;
     }
 
-    public String combineStreams() {
+    public String toString() {
         return String.join("\n",
                 Stream.of(lines)
                         .sorted(Comparator.comparing(line -> line.timestamp))
                         .map(line -> "[" + line.stream.toString() + "] " + line.content)
-                        .toArray(String[]::new)
-        );
+                        .toArray(String[]::new))
+                + "\n\nProcess finished with exit code " + this.exitCode + "\n";
     }
 
     public static ExecResult emptySuccess() {

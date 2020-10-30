@@ -15,6 +15,6 @@ public class TestSolutionContext {
         ctx.addSourceFile("main", "#!/usr/bin/bash\necho hello".getBytes(StandardCharsets.UTF_8));
         ctx.build();
         ExecResult result = ctx.run("main", new String[0]);
-        System.out.println(result.combineStreams());
+        System.out.println(result);
     }
 }

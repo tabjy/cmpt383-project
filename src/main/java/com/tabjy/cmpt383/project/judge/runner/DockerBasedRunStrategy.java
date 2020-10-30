@@ -52,10 +52,10 @@ public abstract class DockerBasedRunStrategy implements IRunStrategy {
         BufferedReader stdOutReader = new BufferedReader(new InputStreamReader(p.getInputStream()));
 
         CopyOnWriteArrayList<ExecResult.Line> lines = new CopyOnWriteArrayList<>();
-        IoUtils.collectInputStreamLines(stdErrReader, line ->
-                lines.add(new ExecResult.Line(ExecResult.Line.Stream.STDERR, new Date(), line)));
-        IoUtils.collectInputStreamLines(stdOutReader, line ->
-                lines.add(new ExecResult.Line(ExecResult.Line.Stream.STDOUT, new Date(), line)));
+//        IoUtils.collectInputStreamLines(stdErrReader, line ->
+//                lines.add(new ExecResult.Line(ExecResult.Line.Stream.STDERR, new Date(), line)));
+//        IoUtils.collectInputStreamLines(stdOutReader, line ->
+//                lines.add(new ExecResult.Line(ExecResult.Line.Stream.STDOUT, new Date(), line)));
 
         int exitCode = 1;
         try {
