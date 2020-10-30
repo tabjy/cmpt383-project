@@ -12,4 +12,9 @@ public class NativeRunStrategy extends DockerBasedRunStrategy {
     Path getContainerWorkDirectory() {
         return Path.of("/work");
     }
+
+    @Override
+    String[] getInterpreterArgs() {
+        return new String[0];
+    }
 }

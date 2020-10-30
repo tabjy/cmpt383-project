@@ -22,7 +22,6 @@ public class NativeOnHostRunStrategy implements IRunStrategy {
         LOG.warn(new UnsupportedOperationException("NativeOnHostRunStrategy#setMemoryLimit is not implemented!"));
     }
 
-    @SuppressWarnings("DuplicatedCode")
     @Override
     public ExecResult run(Map<String, byte[]> outputFiles, String entryPoint, String[] args) throws IOException {
         LOG.warn("do not use NativeOnHostRunStrategy in production!");

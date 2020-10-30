@@ -1,7 +1,6 @@
 package com.tabjy.cmpt383.project.utils;
 
 import com.tabjy.cmpt383.project.judge.ExecResult;
-import com.tabjy.cmpt383.project.judge.runner.NativeOnHostRunStrategy;
 import org.jboss.logging.Logger;
 
 import java.io.File;
