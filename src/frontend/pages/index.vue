@@ -12,70 +12,35 @@
           </v-card-title>
           <v-card-text>
             <p>
-              Vuetify is a progressive Material Design component framework for Vue.js. It was designed to empower
-              developers to create amazing applications.
+              The project tries to implement a modern online judge system for competitive programming contests and
+              practice. The system has a set of programming questions mainly on topics of algorithm and data
+              structures.
             </p>
             <p>
-              For more information on Vuetify, check out the <a
-                href="https://vuetifyjs.com"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                documentation
-              </a>.
+              Contestants will use the website to view problems. Contestants will write code to solve problems. An
+              in-browser code editor with basic highlighting and autocomplete will be available. Once submitted,
+              the contestant's code will be compiled and executed on a judge server against multiple, possibly
+              hidden test cases for validity.
             </p>
             <p>
-              If you have questions, please join the official <a
-                href="https://chat.vuetifyjs.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                title="chat"
-              >
-                discord
-              </a>.
+              Contestants' performances are measured by programs' usage of CPU time and RAM. A leader board ranks
+              all contestants who have submitted a solution for a question. Only contestants with accepted
+              solutions will enter the leader board.
             </p>
             <p>
-              Find a bug? Report it on the github <a
-                href="https://github.com/vuetifyjs/vuetify/issues"
-                target="_blank"
-                rel="noopener noreferrer"
-                title="contribute"
-              >
-                issue board
-              </a>.
+              <em>
+                THIS BUILD IS WORK-IN-PROGRESS!
+              </em>
             </p>
-            <p>
-              Thank you for developing with Vuetify and I look forward to bringing more exciting features in the
-              future.
-            </p>
-            <div class="text-xs-right">
-              <em><small>&mdash; John Leider</small></em>
-            </div>
-            <hr class="my-3">
-            <a
-              href="https://nuxtjs.org/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Nuxt Documentation
-            </a>
-            <br>
-            <a
-              href="https://github.com/nuxt/nuxt.js"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Nuxt GitHub
-            </a>
           </v-card-text>
           <v-card-actions>
             <v-spacer />
             <v-btn
               color="primary"
               nuxt
-              to="/inspire"
+              to="/editor"
             >
-              Continue
+              Open Editor
             </v-btn>
           </v-card-actions>
         </v-card>

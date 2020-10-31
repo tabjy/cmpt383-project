@@ -1,4 +1,4 @@
-version: '3'
+version: '3.4'
 
 volumes:
   shared-tmp-volume:
@@ -34,12 +34,12 @@ services:
     image: tabjy/cmpt-383-project-runner-nodejs
     build:
       context: ./src/runner
-      dockerfile: docker/Dockerfile.native
+      dockerfile: docker/Dockerfile.nodejs
     restart: "no"
 
   python-runner:
     image: tabjy/cmpt-383-project-runner-python
     build:
       context: ./src/runner
-      dockerfile: docker/Dockerfile.native
+      dockerfile: docker/Dockerfile.python
     restart: "no"
