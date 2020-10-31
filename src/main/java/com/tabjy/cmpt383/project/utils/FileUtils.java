@@ -8,11 +8,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.FileAttribute;
 import java.nio.file.attribute.PosixFilePermissions;
-import java.util.HashMap;
 import java.util.Map;
 
 public class FileUtils {
-    private final static String TEMP_DIR_PREFIX = "tabjy-cmpt383-project";
+
+    private final static String TEMP_DIR_PREFIX = "tabjy-cmpt383-project-";
 
     public static boolean deleteRecursively(Path dir) {
         File file = dir.toFile();

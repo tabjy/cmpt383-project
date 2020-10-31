@@ -38,7 +38,7 @@ RUN microdnf install curl ca-certificates ${JAVA_PACKAGE} \
     && echo "securerandom.source=file:/dev/urandom" >> /etc/alternatives/jre/lib/security/java.security
 
 # Configure the JAVA_OPTIONS, you can add -XshowSettings:vm to also display the heap size.
-ENV JAVA_OPTIONS="-Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager"
+ENV JAVA_OPTIONS="-Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager -Djava.io.tmpdir=/shared-tmp-volume"
 
 COPY --from=java-builder /usr/src/app/target/*-runner.jar /deployments/app.jar
 COPY --from=docker-builder /docker/docker /usr/bin/
@@ -50,4 +50,4 @@ USER 0
 # the application will create sibling containers
 VOLUME /var/run/docker.sock
 
-ENTRYPOINT [ "/deployments/run-java.sh" ]
+CMD [ "/deployments/run-java.sh" ]

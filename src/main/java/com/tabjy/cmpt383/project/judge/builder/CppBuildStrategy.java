@@ -15,9 +15,9 @@ public class CppBuildStrategy extends DockerBasedBuildStrategy {
     }
 
     @Override
-    String[] getCompilerArgs() {
+    String[] getCompilerArgs(Path outputDir, Path sourceDir) {
         return new String[]{
-                "g++", "-Wall", "-O2", "-lm", "-pthread", "-fomit-frame-pointer", "-o", "./bin/main"
+                "g++", "-Wall", "-O2", "-lm", "-pthread", "-fomit-frame-pointer", "-o", outputDir.resolve("main").toString()
         };
     }
 }

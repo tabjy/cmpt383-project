@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Map;
 
+import static com.tabjy.cmpt383.project.utils.DockerUtils.SHARED_TMP_VOLUME_NAME;
+import static com.tabjy.cmpt383.project.utils.DockerUtils.SHARED_TMP_VOLUME_NAME_MOUNT_POINT;
+
 public abstract class DockerBasedRunStrategy implements IRunStrategy {
     private static final Logger LOG = Logger.getLogger(DockerBasedRunStrategy.class);
 
@@ -30,13 +33,13 @@ public abstract class DockerBasedRunStrategy implements IRunStrategy {
 
     @Override
     public ExecResult run(Map<String, byte[]> outputFiles, String entryPoint, String[] args) throws IOException {
-        Path dir = FileUtils.extractToTempDirectory(outputFiles, "rwxr-xr-x"); // 755
+        Path dir = FileUtils.extractToTempDirectory(outputFiles, "rwxrwxrwx"); // 777
 
         String image = getContainerImageTag();
         Path workDir = getContainerWorkDirectory();
         String[] dockerArgs = new String[]{
                 "docker", "run", "--rm", //
-                "-v", dir.toString() + ":" + workDir.resolve("bin").toString(), //
+                "-v", SHARED_TMP_VOLUME_NAME + ":" + SHARED_TMP_VOLUME_NAME_MOUNT_POINT,
                 image, //
         };
         String[] interpreterArgs = getInterpreterArgs();
@@ -50,7 +53,7 @@ public abstract class DockerBasedRunStrategy implements IRunStrategy {
         System.arraycopy(interpreterArgs, 0, cmd, pos, interpreterArgs.length);
         pos += interpreterArgs.length;
 
-        cmd[pos] = workDir.resolve("bin").resolve(entryPoint).toString();
+        cmd[pos] = dir.resolve(entryPoint).toString();
         pos += 1;
 
         System.arraycopy(args, 0, cmd, pos, args.length);

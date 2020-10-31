@@ -34,4 +34,4 @@ USER 0
 # the application will create sibling containers
 VOLUME /var/run/docker.sock
 
-CMD ["./application", "-Dquarkus.http.host=0.0.0.0"]
+CMD ["./application", "-Dquarkus.http.host=0.0.0.0", "-Djava.io.tmpdir=/shared-tmp-volume"]

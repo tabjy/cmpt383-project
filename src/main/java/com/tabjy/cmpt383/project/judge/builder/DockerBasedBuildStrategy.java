@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Map;
 
+import static com.tabjy.cmpt383.project.utils.DockerUtils.SHARED_TMP_VOLUME_NAME;
+import static com.tabjy.cmpt383.project.utils.DockerUtils.SHARED_TMP_VOLUME_NAME_MOUNT_POINT;
+
 public abstract class DockerBasedBuildStrategy implements IBuildStrategy {
     private static final Logger LOG = Logger.getLogger(DockerBasedBuildStrategy.class);
 
@@ -16,23 +19,22 @@ public abstract class DockerBasedBuildStrategy implements IBuildStrategy {
 
     abstract Path getContainerWorkDirectory();
 
-    abstract String[] getCompilerArgs();
+    abstract String[] getCompilerArgs(Path outputDir, Path sourceDir);
 
     @Override
     public ExecResult build(String[] additionalCompilerFlags, Map<String, byte[]> sourceFiles, Map<String, byte[]> outputFiles) throws IOException {
-        Path sourceDir = FileUtils.extractToTempDirectory(sourceFiles, "rwxr-xr-x"); // 755
-        Path outputDir = FileUtils.createTempDirectory("rwxr-xr-x"); // 755
+        Path sourceDir = FileUtils.extractToTempDirectory(sourceFiles, "rwxrwxrwx"); // 777
+        Path outputDir = FileUtils.createTempDirectory("rwxrwxrwx"); // 777
 
         String image = getContainerImageTag();
         Path workDir = getContainerWorkDirectory();
         String[] dockerArgs = new String[]{
                 "docker", "run", "--rm", //
-                "-v", sourceDir.toString() + ":" + workDir.resolve("src").toString(), //
-                "-v", outputDir.toString() + ":" + workDir.resolve("bin").toString(), //
+                "-v", SHARED_TMP_VOLUME_NAME + ":" + SHARED_TMP_VOLUME_NAME_MOUNT_POINT,
                 image, //
         };
-        String[] compilerArgs = getCompilerArgs();
-        String[] targets = sourceFiles.keySet().stream().map(file -> workDir.resolve("src").resolve(file).toString()).toArray(String[]::new);
+        String[] compilerArgs = getCompilerArgs(outputDir, sourceDir);
+        String[] targets = sourceFiles.keySet().stream().map(file -> sourceDir.resolve(file).toString()).toArray(String[]::new);
 
         String[] cmd = new String[dockerArgs.length + compilerArgs.length + additionalCompilerFlags.length + targets.length];
 
