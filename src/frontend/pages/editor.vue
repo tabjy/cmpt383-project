@@ -33,7 +33,7 @@
         <hr/>
         <p>This side bar is for problem description, which is currently empty.</p>
         <p>Try modifying the code however you like. Hit submit to evaluate it on the judge server.</p>
-        <p>Currently only C, C++, and JavaScript is supported. Other languages will be added.</p>
+        <p>Currently only C, C++, and JavaScript are supported. Other languages will be added.</p>
         <pre>HAPPY CODING!
         </pre>
       </v-col>

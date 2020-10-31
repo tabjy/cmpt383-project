@@ -15,14 +15,14 @@ Contestants' performances are measured by programs' usage of CPU time and RAM. A
 all contestants who have submitted a solution for a question. Only contestants with accepted 
 solutions will enter the leader board.
 
-The system architects as follow:
+The system architects as follows:
 
 ![](https://i.imgur.com/UByQTtz.jpg)
  
 ## Programming Languages
 1. JavaScript
 
-    For web front-end. The system uses [Vue.js](https://cn.vuejs.org/index.html) framework and 
+    For the web front-end. The system uses [Vue.js](https://cn.vuejs.org/index.html) framework and 
     [Vuetify](https://vuetifyjs.com/en/) UI component library.
 
 2. Java
@@ -32,12 +32,12 @@ The system architects as follow:
     for validation. The judge server spawns child containers for compiling and running. The runner
     containers are isolated with limited capabilities and resource constraints.
 
-    Judge server is designed as a separate process so multiple judge server can distributedly share 
+    Judge server is designed as a separate process so multiple judge server can distributively share 
     the workload.
 
 3. C/C++/Go/Python...
 
-    Basically any languages the online judge system supports. Currently only C, C++, and JavaScript 
+    Basically any languages the online judge system supports. Currently, only C, C++, and JavaScript 
     are supported. More language compilers and runtimes will be added.
 
 ## Inter-language Communication
@@ -88,8 +88,8 @@ That's it!. Now, with your favourite browser, which is hopefully not the Interne
 
 ## What Does Not Yet Work
 
-- [ ] The application server and judge servers are not yet separated processed
-- [ ] There is no problems yet
+- [ ] The application server and judge servers are not yet separated processes
+- [ ] There are no programming problems yet
 - [ ] Memory and CPU time limit is not yet implemented
 - [ ] Runner containers are not yet well-isolated (will look into 
 [gvisor](https://github.com/google/gvisor))
