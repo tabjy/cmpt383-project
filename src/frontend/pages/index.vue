@@ -8,7 +8,7 @@
         </div>
         <v-card>
           <v-card-title class="headline">
-            Welcome to the Vuetify + Nuxt.js template
+            Welcome to my CMPT-383 project!
           </v-card-title>
           <v-card-text>
             <p>

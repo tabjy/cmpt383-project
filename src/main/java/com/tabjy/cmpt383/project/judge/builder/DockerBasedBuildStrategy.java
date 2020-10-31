@@ -29,7 +29,7 @@ public abstract class DockerBasedBuildStrategy implements IBuildStrategy {
         String image = getContainerImageTag();
         Path workDir = getContainerWorkDirectory();
         String[] dockerArgs = new String[]{
-                "docker", "run", "--rm", //
+                "docker", "-H", "unix:///tmp/docker.sock", "run", "--rm", //
                 "-v", SHARED_TMP_VOLUME_NAME + ":" + SHARED_TMP_VOLUME_NAME_MOUNT_POINT,
                 image, //
         };

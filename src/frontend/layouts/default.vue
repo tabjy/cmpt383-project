@@ -90,7 +90,7 @@ export default {
       ],
       right: true,
       rightDrawer: false,
-      title: 'Vuetify.js'
+      title: 'CMPT-383 Project'
     }
   }
 }

@@ -48,6 +48,5 @@ EXPOSE 8080
 # ugly, until we can find a better solution
 USER 0
 # the application will create sibling containers
-VOLUME /var/run/docker.sock
 
 CMD [ "/deployments/run-java.sh" ]

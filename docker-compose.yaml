@@ -1,0 +1,45 @@
+version: '3'
+
+volumes:
+  shared-tmp-volume:
+    name: shared-tmp-volume
+
+services:
+  application:
+    image: tabjy/cmpt-383-project
+    build:
+      context: ./
+      dockerfile: src/main/docker/Dockerfile.staged-jvm
+    volumes:
+      - shared-tmp-volume:/shared-tmp-volume
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    ports:
+      - "8080:8080"
+
+  gcc-builder:
+    image: tabjy/cmpt-383-project-builder-gcc
+    build:
+      context: ./src/builder
+      dockerfile: docker/Dockerfile.gcc
+    restart: "no"
+
+  native-runner:
+    image: tabjy/cmpt-383-project-runner-native
+    build:
+      context: ./src/runner
+      dockerfile: docker/Dockerfile.native
+    restart: "no"
+
+  nodejs-runner:
+    image: tabjy/cmpt-383-project-runner-nodejs
+    build:
+      context: ./src/runner
+      dockerfile: docker/Dockerfile.native
+    restart: "no"
+
+  python-runner:
+    image: tabjy/cmpt-383-project-runner-python
+    build:
+      context: ./src/runner
+      dockerfile: docker/Dockerfile.native
+    restart: "no"
