@@ -23,7 +23,7 @@ public class NativeOnHostRunStrategy implements IRunStrategy {
     }
 
     @Override
-    public ExecResult run(Map<String, byte[]> outputFiles, String entryPoint, String[] args) throws IOException {
+    public ExecResult run(Map<String, byte[]> outputFiles, String entryPoint, String[] args, byte[] stdin) throws IOException {
         LOG.warn("do not use NativeOnHostRunStrategy in production!");
 
         Path dir = FileUtils.extractToTempDirectory(outputFiles, "rwxr-xr-x");
@@ -32,7 +32,7 @@ public class NativeOnHostRunStrategy implements IRunStrategy {
         cmd[0] = dir.resolve(entryPoint).toString();
         System.arraycopy(args, 0, cmd, 1, args.length);
 
-        ExecResult result = SystemUtils.exec(cmd, null, dir.toFile());
+        ExecResult result = SystemUtils.exec(cmd, null, dir.toFile(), stdin);
 
         if (!FileUtils.deleteRecursively(dir)) {
             LOG.warn("failed to delete temp directory");

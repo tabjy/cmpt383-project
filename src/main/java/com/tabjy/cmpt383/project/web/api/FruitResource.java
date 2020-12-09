@@ -19,7 +19,7 @@ public class FruitResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Fruit> list() throws InterruptedException {
+    public List<Fruit> list() {
         return fruitService.listAll();
     }
 
@@ -27,6 +27,13 @@ public class FruitResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Fruit create(Fruit fruit) {
         return fruitService.add(fruit);
+    }
+
+    @POST
+    @Path("/echo")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Fruit echo(Fruit fruit) {
+        return fruit;
     }
 
     @GET

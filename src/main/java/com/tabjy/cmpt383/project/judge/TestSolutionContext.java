@@ -2,6 +2,7 @@ package com.tabjy.cmpt383.project.judge;
 
 import com.tabjy.cmpt383.project.judge.builder.BuildStrategies;
 import com.tabjy.cmpt383.project.judge.runner.RunStrategies;
+import com.tabjy.cmpt383.project.models.Language;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -16,8 +17,8 @@ public class TestSolutionContext {
                 "}";
 
         SolutionContext ctx = new SolutionContext();
-        ctx.setBuildStrategy(BuildStrategies.forLanguage("c++"));
-        ctx.setRunStrategy(RunStrategies.forLanguage("c++"));
+        ctx.setBuildStrategy(BuildStrategies.forLanguage(Language.cpp));
+        ctx.setRunStrategy(RunStrategies.forLanguage(Language.cpp));
 
         ctx.addSourceFile("main.cpp", source.getBytes(StandardCharsets.UTF_8));
         ExecResult result = ctx.build();

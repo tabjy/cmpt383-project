@@ -3,9 +3,7 @@ package com.tabjy.cmpt383.project.models;
 import io.quarkus.mongodb.panache.MongoEntity;
 import org.bson.types.ObjectId;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @MongoEntity(collection = "Fruits", database = "cmpt383")
 public class Fruit {
@@ -15,6 +13,8 @@ public class Fruit {
     public String description;
     public Point point;
     public List<Point> points = new ArrayList<>();
+    public Map<String, Boolean> templates = new HashMap<>();
+    public Language language;
 
     public Fruit() {
     }

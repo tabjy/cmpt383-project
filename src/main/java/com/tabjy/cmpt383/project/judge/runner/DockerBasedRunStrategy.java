@@ -32,7 +32,7 @@ public abstract class DockerBasedRunStrategy implements IRunStrategy {
     }
 
     @Override
-    public ExecResult run(Map<String, byte[]> outputFiles, String entryPoint, String[] args) throws IOException {
+    public ExecResult run(Map<String, byte[]> outputFiles, String entryPoint, String[] args, byte[] stdin) throws IOException {
         Path dir = FileUtils.extractToTempDirectory(outputFiles, "rwxrwxrwx"); // 777
 
         String image = getContainerImageTag();

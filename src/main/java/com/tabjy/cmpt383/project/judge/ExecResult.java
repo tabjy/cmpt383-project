@@ -23,6 +23,28 @@ public class ExecResult {
                 + "\n\nProcess finished with exit code " + this.exitCode + "\n";
     }
 
+    private String getStreamContent(ExecResult.Line.Stream stream) {
+        return String.join("\n",
+                Stream.of(lines)
+                        .sorted(Comparator.comparing(line -> line.timestamp))
+                        .filter(line -> line.stream == stream)
+                        .map(line -> line.content)
+                        .toArray(String[]::new)
+        );
+    }
+
+    public String getStdout() {
+        return getStreamContent(Line.Stream.STDOUT);
+    }
+
+    public String getStderr() {
+        return getStreamContent(Line.Stream.STDERR);
+    }
+
+    public String getStdin() {
+        return getStreamContent(Line.Stream.STDIN);
+    }
+
     public static ExecResult emptySuccess() {
         return new ExecResult(0, new Line[0]);
     }

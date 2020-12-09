@@ -16,7 +16,7 @@ public class NullRunStrategy implements IRunStrategy {
     }
 
     @Override
-    public ExecResult run(Map<String, byte[]> outputFiles, String entryPoint, String[] args) {
+    public ExecResult run(Map<String, byte[]> outputFiles, String entryPoint, String[] args, byte[] stdin) {
         throw new RuntimeException("no build strategy selected");
     }
 }

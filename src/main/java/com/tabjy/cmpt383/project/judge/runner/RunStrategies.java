@@ -1,6 +1,10 @@
 package com.tabjy.cmpt383.project.judge.runner;
 
 import com.tabjy.cmpt383.project.judge.LanguageNotSupportedException;
+import com.tabjy.cmpt383.project.judge.builder.CBuildStrategy;
+import com.tabjy.cmpt383.project.judge.builder.CppBuildStrategy;
+import com.tabjy.cmpt383.project.judge.builder.InterpretedLanguageBuildStrategy;
+import com.tabjy.cmpt383.project.models.Language;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
@@ -17,16 +21,17 @@ public class RunStrategies {
         );
     }
 
-    public static IRunStrategy forLanguage(String language) throws LanguageNotSupportedException {
-        Class<? extends IRunStrategy> strategy = STRATEGY_MAP.get(language.toLowerCase());
-        if (strategy == null) {
-            throw new LanguageNotSupportedException(language);
-        }
-
-        try {
-            return strategy.getDeclaredConstructor().newInstance();
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+    public static IRunStrategy forLanguage(Language language) throws LanguageNotSupportedException {
+        switch (language) {
+            case c:
+            case cpp:
+                return new NativeRunStrategy();
+            case javascript:
+                return new PythonRunStrategy();
+            case python:
+                return new NodejsRunStrategy();
+            default:
+                throw new LanguageNotSupportedException(language.name());
         }
     }
 }

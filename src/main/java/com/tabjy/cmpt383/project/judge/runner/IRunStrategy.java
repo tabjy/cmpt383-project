@@ -10,5 +10,5 @@ public interface IRunStrategy {
 
     void setMemoryLimit(long bytes);
 
-    ExecResult run(Map<String, byte[]> outputFiles, String entryPoint, String[] args) throws IOException;
+    ExecResult run(Map<String, byte[]> outputFiles, String entryPoint, String[] args, byte[] stdin) throws IOException;
 }

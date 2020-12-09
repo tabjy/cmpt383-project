@@ -47,10 +47,10 @@ public class SolutionContext {
     }
 
     public ExecResult run(String entryPoint) throws IOException {
-        return run(entryPoint, new String[0]);
+        return run(entryPoint, new String[0], new byte[0]);
     }
 
-    public ExecResult run(String entryPoint, String[] args) throws IOException {
-        return runStrategy.run(outputFiles, entryPoint, args);
+    public ExecResult run(String entryPoint, String[] args, byte[] stdin) throws IOException {
+        return runStrategy.run(outputFiles, entryPoint, args, stdin);
     }
 }
