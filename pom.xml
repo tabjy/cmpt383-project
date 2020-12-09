@@ -1,30 +1,28 @@
 <?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
-         xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.tabjy</groupId>
   <artifactId>cmpt383-project</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <properties>
-    <surefire-plugin.version>2.22.1</surefire-plugin.version>
-    <maven.compiler.target>11</maven.compiler.target>
-    <quarkus.platform.version>1.9.0.Final</quarkus.platform.version>
-    <maven.compiler.source>11</maven.compiler.source>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <quarkus.platform.artifact-id>quarkus-universe-bom</quarkus.platform.artifact-id>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <maven.compiler.parameters>true</maven.compiler.parameters>
-    <quarkus-plugin.version>1.9.0.Final</quarkus-plugin.version>
-    <compiler-plugin.version>3.8.1</compiler-plugin.version>
-    <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
-
     <com.github.eirslett.frontend.plugin.version>1.9.1</com.github.eirslett.frontend.plugin.version>
-    <node.version>v12.5.0</node.version>
-    <yarn.version>v1.22.10</yarn.version>
-    <org.apache.maven.plugins.resources.version>3.1.0</org.apache.maven.plugins.resources.version>
-    <generated.resources.directory>${project.build.directory}/generated-resources/assets/resources</generated.resources.directory>
+    <compiler-plugin.version>3.8.1</compiler-plugin.version>
     <generated.frontend.resources.directory>${generated.resources.directory}/META-INF/resources</generated.frontend.resources.directory>
+    <generated.resources.directory>${project.build.directory}/generated-resources/assets/resources</generated.resources.directory>
+    <maven.compiler.parameters>true</maven.compiler.parameters>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
+    <node.version>v12.5.0</node.version>
+    <org.apache.maven.plugins.resources.version>3.1.0</org.apache.maven.plugins.resources.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <quarkus-plugin.version>1.9.0.Final</quarkus-plugin.version>
+    <quarkus.platform.artifact-id>quarkus-universe-bom</quarkus.platform.artifact-id>
+    <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
+    <quarkus.platform.version>1.9.0.Final</quarkus.platform.version>
+    <surefire-plugin.version>2.22.1</surefire-plugin.version>
+    <yarn.version>v1.22.10</yarn.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -54,6 +52,22 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-junit5</artifactId>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-mongodb-client</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-resteasy-jackson</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-rest-client</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-mongodb-panache</artifactId>
     </dependency>
   </dependencies>
   <build>
@@ -91,15 +105,10 @@
           </systemPropertyVariables>
         </configuration>
       </plugin>
-
       <plugin>
         <groupId>com.github.eirslett</groupId>
         <artifactId>frontend-maven-plugin</artifactId>
         <version>${com.github.eirslett.frontend.plugin.version}</version>
-        <configuration>
-          <workingDirectory>${project.basedir}/src/frontend</workingDirectory>
-          <installDirectory>${project.basedir}/target</installDirectory>
-        </configuration>
         <executions>
           <execution>
             <id>install-node-and-npm</id>
@@ -126,6 +135,10 @@
             </configuration>
           </execution>
         </executions>
+        <configuration>
+          <workingDirectory>${project.basedir}/src/frontend</workingDirectory>
+          <installDirectory>${project.basedir}/target</installDirectory>
+        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-resources-plugin</artifactId>
@@ -182,9 +195,8 @@
         </plugins>
       </build>
       <properties>
+        <quarkus.native.additional-build-args>-H:IncludeResources=^META-INF/resources/.*$</quarkus.native.additional-build-args>
         <quarkus.package.type>native</quarkus.package.type>
-        <quarkus.native.additional-build-args>-H:IncludeResources=^META-INF/resources/.*$
-        </quarkus.native.additional-build-args>
       </properties>
     </profile>
   </profiles>
