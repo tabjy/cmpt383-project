@@ -13,6 +13,51 @@ module.exports = async () => ({
     ],
     templates: [
         {
+            language: 'c',
+            files: [
+                {
+                    path: 'main.c',
+                    content: await readFile(__dirname + '/c/main.c', 'utf-8'),
+                    editable: false
+                },
+                {
+                    path: 'solution.c',
+                    content: await readFile(__dirname + '/c/solution.c', 'utf-8'),
+                    editable: true
+                }
+            ]
+        },
+        {
+            language: 'cpp',
+            files: [
+                {
+                    path: 'main.cpp',
+                    content: await readFile(__dirname + '/cpp/main.cpp', 'utf-8'),
+                    editable: false
+                },
+                {
+                    path: 'solution.cpp',
+                    content: await readFile(__dirname + '/cpp/solution.cpp', 'utf-8'),
+                    editable: true
+                }
+            ]
+        },
+        {
+            language: 'java',
+            files: [
+                {
+                    path: 'Main.java',
+                    content: await readFile(__dirname + '/java/Main.java', 'utf-8'),
+                    editable: false
+                },
+                {
+                    path: 'Solution.java',
+                    content: await readFile(__dirname + '/java/Solution.java', 'utf-8'),
+                    editable: true
+                }
+            ]
+        },
+        {
             language: 'javascript',
             files: [
                 {
@@ -23,6 +68,21 @@ module.exports = async () => ({
                 {
                     path: 'solution.js',
                     content: await readFile(__dirname + '/javascript/solution.js', 'utf-8'),
+                    editable: true
+                }
+            ]
+        },
+        {
+            language: 'python',
+            files: [
+                {
+                    path: 'main.py',
+                    content: await readFile(__dirname + '/python/main.py', 'utf-8'),
+                    editable: false
+                },
+                {
+                    path: 'solution.py',
+                    content: await readFile(__dirname + '/python/solution.py', 'utf-8'),
                     editable: true
                 }
             ]

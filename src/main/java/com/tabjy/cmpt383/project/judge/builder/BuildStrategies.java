@@ -7,16 +7,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 public class BuildStrategies {
-    private static final Map<String, Class<? extends IBuildStrategy>> STRATEGY_MAP;
-
-    static {
-        STRATEGY_MAP = Map.of( //
-                "c", CBuildStrategy.class, //
-                "cpp", CppBuildStrategy.class, //
-                "javascript", InterpretedLanguageBuildStrategy.class, //
-                "python", InterpretedLanguageBuildStrategy.class //
-        );
-    }
 
     public static IBuildStrategy forLanguage(Language language) throws LanguageNotSupportedException {
         switch (language) {
@@ -24,6 +14,8 @@ public class BuildStrategies {
                 return new CBuildStrategy();
             case cpp:
                 return new CppBuildStrategy();
+            case java:
+                return new JavaBuildStrategy();
             case javascript:
             case python:
                 return new InterpretedLanguageBuildStrategy();

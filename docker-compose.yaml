@@ -57,3 +57,17 @@ services:
       context: ./src/runner
       dockerfile: docker/Dockerfile.python
     restart: "no"
+
+  java-builder:
+    image: tabjy/cmpt-383-project-builder-openjdk
+    build:
+      context: ./src/builder
+      dockerfile: docker/Dockerfile.openjdk
+    restart: "no"
+
+  java-runner:
+    image: tabjy/cmpt-383-project-runner-openjdk
+    build:
+      context: ./src/runner
+      dockerfile: docker/Dockerfile.openjdk
+    restart: "no"

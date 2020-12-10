@@ -1,21 +1,28 @@
 <template>
   <v-container fill-height style="max-width: none; padding: 0; display: block; ">
     <v-row style="height: 64px; background-color: lightgrey">
-      <v-col cols="4" style="background-color: #eee"/>
+      <v-col cols="4" style="background-color: #eee" />
       <v-col cols="2">
         <v-select
           v-model="language"
-          :items="languageTemplates.map(template => template.display)"
           label="Language"
+          :items="problem.templates.map((t) => t.language)"
           dense
           solo
-          @change="onLanguageChange"
         />
       </v-col>
       <v-col
         cols="6"
         class="text-right"
       >
+        <v-btn
+          depressed
+          style="margin-right: 12px;"
+          :disabled="evaluating"
+          @click="test"
+        >
+          Test
+        </v-btn>
         <v-btn
           depressed
           color="primary"
@@ -28,24 +35,27 @@
       </v-col>
     </v-row>
     <v-row style="height: calc(100% - 64px)">
-      <v-col cols="4" style="background-color: #eee; padding: 12px 12px 12px 24px;">
-        <h2>Problem title</h2>
-        <hr/>
-        <p>This side bar is for problem description, which is currently empty.</p>
-        <p>Try modifying the code however you like. Hit submit to evaluate it on the judge server.</p>
-        <p>Currently only C, C++, and JavaScript are supported. Other languages will be added.</p>
-        <pre>HAPPY CODING!
-        </pre>
+      <v-col style="background-color: #eee; padding: 12px 12px 12px 24px;" cols="4">
+        <v-row v-show="problem.id" style="padding: 0 16px 0 16px" v-html="problem.description" />
+        <v-row v-show="!problem.id" align="center" justify="center" style="height: 100%">
+          <div class="text-center">
+            <v-progress-circular
+              indeterminate
+              color="primary"
+            />
+            <p>Loading problem...</p>
+          </div>
+        </v-row>
       </v-col>
       <v-col cols="8" style="background-color: white; padding-bottom: 0">
         <v-row style="height: calc(100% - 150px); padding: 0">
           <iframe
-            v-show="loaded"
+            v-show="editorLoaded"
             id="editor-iframe"
             src="/editor-iframe.html"
             style="height: 100%; width: 100%; border: none;"
           />
-          <v-row v-show="!loaded" align="center" justify="center" style="height: 100%">
+          <v-row v-show="!editorLoaded" align="center" justify="center" style="height: 100%">
             <div class="text-center">
               <v-progress-circular
                 indeterminate
@@ -55,11 +65,24 @@
             </div>
           </v-row>
         </v-row>
-        <v-row style="height: 150px; background-color: #333">
-          <pre
-            style="height: 100%; width: 100%; padding: 12px; color: #eee; font-family: monospace; font-size: 10pt; overflow-y: auto">{{
-              output
-            }}</pre>
+        <v-row style="height: 150px; background-color: #333; padding: 12px; display: block; overflow-y: scroll; font-family: monospace; font-size: 10pt; color: lightgrey">
+          <pre v-if="evaluating > 0" style="width: 100%">Evaluating...</pre>
+          <pre v-for="(result, index) in results" :key="result.runtime" style="width: 100%;" :style="{color: result.acceptance === 'ac' ? 'lightgreen' : 'red'}">{{
+              (() => {
+                switch (result.acceptance) {
+                  case 'ac':
+                    return `AC: Test case #${index + 1} accepted! (${result.runtime}ms)`
+                  case 'wa':
+                    return `WA: Test case #${index + 1} received a wrong answer! (${result.runtime}ms)\nExpect: ${result.expected}\nActual: ${result.actual}`
+                  case 're':
+                    return `RE: Test case #${index + 1} exited with a non-zero exit code! (${result.runtime}ms)`
+                  case 'ce':
+                    return `CE: Test case #${index + 1} encountered a compiler error! (${result.runtime}ms)\n${result.actual}`
+                }
+                return ''
+              })()
+          }}</pre>
+          <pre v-if="results.length > 0" style="width: 100%">{{ results.filter(r => r.acceptance === 'ac').length }} out of {{ results.length }} test cases passed!</pre>
         </v-row>
       </v-col>
     </v-row>
@@ -73,53 +96,38 @@ html {
 </style>
 
 <script>
-let editor
+// eslint-disable-next-line no-unused-vars
+const baseUrl = document.location.origin
+// const baseUrl = 'http://0.0.0.0:8080'
 
+let editor
+let resolveFunc = () => {}
 export default {
   data () {
     return {
-      loaded: false,
+      problem: {
+        id: null,
+        title: null,
+        difficulty: null,
+        description: null,
+        testCases: [],
+        templates: []
+      },
+      language: null,
       evaluating: false,
-      output: '',
-      language: 'C',
-      languageTemplates: [
-        {
-          display: 'C',
-          value: `#include <stdio.h>
-
-int main() {
-   printf("Hello, world!");
-   return 0;
-}
-`,
-          language: 'c',
-          lintingLanguage: 'cpp'
-        }, {
-          display: 'C++',
-          value: `#include <iostream>
-
-int main() {
-    std::cout << "Hello, world!";
-    return 0;
-}
-`,
-          language: 'cpp',
-          lintingLanguage: 'cpp'
-        }, {
-          display: 'JavaScript',
-          value: `(function() {
-    console.log("Hello, world!");
-})()
-`,
-          language: 'javascript',
-          lintingLanguage: 'javascript'
-        }
-      ]
+      editorLoaded: false,
+      problemLoaded: false,
+      results: []
+    }
+  },
+  watch: {
+    language (event) {
+      this.reloadTemplate()
     }
   },
   mounted () {
+    // eslint-disable-next-line no-unused-vars
     editor = document.getElementById('editor-iframe')
-
     window.onmessage = (e) => {
       let data
       try {
@@ -130,50 +138,61 @@ int main() {
 
       switch (data.method) {
         case 'gotValue':
-          this.gotValue(data.value)
+          resolveFunc(data.value)
           return
         case 'ready':
-          this.onReady()
+          this.editorLoaded = true
+          this.reloadTemplate()
       }
     }
+    const url = new URL(document.location.href)
+    this.$axios.get(`${baseUrl}/api/problems/${url.searchParams.get('problemId')}`).then((resp) => {
+      this.problem = resp.data
+      this.language = this.problem.templates[0].language
+    }).catch((err) => {
+      alert(err.response ? err.response.data.details : 'Cannot communicate with the server!')
+    })
   },
   methods: {
-    onLanguageChange (event) {
-      const { value, lintingLanguage } = this.languageTemplates.find(template => template.display === this.language)
-      editor.contentWindow.postMessage(JSON.stringify({
+    reloadTemplate () {
+      if (!this.language || !this.editorLoaded) {
+        return
+      }
+
+      const params = {
         method: 'createEditor',
-        value,
-        language: lintingLanguage
-      }), '*')
+        value: this.problem.templates.find(t => t.language === this.language).files.find(f => f.editable).content,
+        language: this.language
+      }
+      editor.contentWindow.postMessage(JSON.stringify(params), '*')
     },
-    onReady () {
-      this.loaded = true
-      this.onLanguageChange(null)
+    test (event) {
+      this.evaluating = true
+      this.results = []
+      const p = new Promise((resolve, reject) => { resolveFunc = resolve })
+      editor.contentWindow.postMessage(JSON.stringify({ method: 'getValue' }), '*')
+      p.then((value) => {
+        const url = new URL(document.location.href)
+        const params = {
+          problemId: url.searchParams.get('problemId'),
+          language: this.language,
+          files: [{
+            path: this.problem.templates.find(t => t.language === this.language).files.find(f => f.editable).path,
+            content: value,
+            editable: true
+          }]
+        }
+        this.$axios.post(`${baseUrl}/api/submission/test`, params).then((resp) => {
+          this.results = resp.data
+        }).catch((err) => {
+          alert(err.response ? err.response.data.details : 'Cannot communicate with the server!')
+        }).finally(() => {
+          this.evaluating = false
+        })
+      })
     },
     submit (event) {
-      this.evaluating = true
-      this.output = 'Evaluating...'
-      editor.contentWindow.postMessage(JSON.stringify({
-        method: 'getValue'
-      }), '*')
-    },
-    gotValue (value) {
-      const { language } = this.languageTemplates.find(template => template.display === this.language)
-      this.$axios.get(document.location.origin + '/api/evaluate', {
-        params: {
-          language,
-          value
-        }
-      }).then((resp) => {
-        this.evaluating = false
-        this.output = resp.data
-        console.log(resp)
-      }).catch((err) => {
-        this.evaluating = false
-        this.output = ''
-
-        alert(err.response.data)
-      })
+      // TODO
     }
   }
 }

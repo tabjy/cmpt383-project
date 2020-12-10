@@ -28,6 +28,7 @@ public class SubmissionService implements PanacheMongoRepository<Submission> {
         LANGUAGE_TO_OUTPUT_FILENAMES = Map.of(
                 Language.c, "main", //
                 Language.cpp, "main", //
+                Language.java, "main.sh", //
                 Language.javascript, "main.js", //
                 Language.python, "main.py" //
         );
@@ -39,7 +40,7 @@ public class SubmissionService implements PanacheMongoRepository<Submission> {
     private Result compile(Submission submission, Problem problem, SolutionContext ctx) throws LanguageNotSupportedException, IOException {
         Optional<Template> template = problem.templates.stream().filter(t -> t.language == submission.language).findFirst();
         if (template.isEmpty()) {
-            throw new LanguageNotSupportedException(submission.language.name() + " is not supported for this problem");
+            throw new LanguageNotSupportedException(submission.language.name());
         }
 
         ctx.setBuildStrategy(BuildStrategies.forLanguage(submission.language));

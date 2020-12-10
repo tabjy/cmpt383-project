@@ -30,6 +30,8 @@ public class RunStrategies {
                 return new NodejsRunStrategy();
             case python:
                 return new PythonRunStrategy();
+            case java:
+                return new JavaRunStrategy();
             default:
                 throw new LanguageNotSupportedException(language.name());
         }
