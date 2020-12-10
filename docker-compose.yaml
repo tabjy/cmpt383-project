@@ -15,6 +15,20 @@ services:
       - /var/run/docker.sock:/tmp/docker.sock:ro
     ports:
       - "8080:8080"
+    links:
+      - mongodb
+
+  mongodb:
+    image: mongo
+    ports:
+      - "27017:27017"
+
+  mongodb-seeds:
+    build:
+      context: ./src/seeds
+      dockerfile: Dockerfile
+    links:
+      - mongodb
 
   gcc-builder:
     image: tabjy/cmpt-383-project-builder-gcc

@@ -15,10 +15,10 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @ApplicationScoped
 public class SubmissionService implements PanacheMongoRepository<Submission> {
@@ -37,14 +37,15 @@ public class SubmissionService implements PanacheMongoRepository<Submission> {
     ProblemService problemService;
 
     private Result compile(Submission submission, Problem problem, SolutionContext ctx) throws LanguageNotSupportedException, IOException {
-        if (!problem.templates.containsKey(submission.language.name())) {
+        Optional<Template> template = problem.templates.stream().filter(t -> t.language == submission.language).findFirst();
+        if (template.isEmpty()) {
             throw new LanguageNotSupportedException(submission.language.name() + " is not supported for this problem");
         }
 
         ctx.setBuildStrategy(BuildStrategies.forLanguage(submission.language));
         ctx.setRunStrategy(RunStrategies.forLanguage(submission.language));
 
-        for (File f : problem.templates.get(submission.language.name()).files) {
+        for (File f : template.get().files) {
             ctx.addSourceFile(f.path, f.content.getBytes(StandardCharsets.UTF_8));
         }
 
@@ -59,24 +60,26 @@ public class SubmissionService implements PanacheMongoRepository<Submission> {
         Result r = new Result();
         r.acceptance = result.exitCode == 0 ? Acceptance.ac : Acceptance.ce;
         r.actual = result.toString();
-        r.runtime = Duration.between(then, now).get(ChronoUnit.MILLIS);
+        r.runtime = Duration.between(then, now).toMillis();
         return r;
     }
 
     public Result testOneCase(Submission submission, SolutionContext ctx, TestCase testCase) throws IOException {
         Instant then = Instant.now();
-        ExecResult er = ctx.run(LANGUAGE_TO_OUTPUT_FILENAMES.get(submission.language), null, testCase.in.getBytes(StandardCharsets.UTF_8));
+        ExecResult er = ctx.run(LANGUAGE_TO_OUTPUT_FILENAMES.get(submission.language), new String[0], testCase.in.getBytes(StandardCharsets.UTF_8));
         Instant now = Instant.now();
+
+        System.out.println(er.toString());
 
         Result r = new Result();
         r.input = testCase.in;
         r.expected = testCase.out;
         r.actual = er.getStdout();
-        r.runtime = Duration.between(then, now).get(ChronoUnit.MILLIS);
+        r.runtime = Duration.between(then, now).toMillis();
         r.acceptance = Acceptance.ac;
         if (er.exitCode != 0) {
             r.acceptance = Acceptance.re;
-        } else if (!r.expected.equals(r.actual)) {
+        } else if (!r.expected.trim().equals(r.actual.trim())) {
             r.acceptance = Acceptance.wa;
         }
 

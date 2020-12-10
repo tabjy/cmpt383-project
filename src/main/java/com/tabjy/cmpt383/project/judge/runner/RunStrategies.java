@@ -27,9 +27,9 @@ public class RunStrategies {
             case cpp:
                 return new NativeRunStrategy();
             case javascript:
-                return new PythonRunStrategy();
-            case python:
                 return new NodejsRunStrategy();
+            case python:
+                return new PythonRunStrategy();
             default:
                 throw new LanguageNotSupportedException(language.name());
         }

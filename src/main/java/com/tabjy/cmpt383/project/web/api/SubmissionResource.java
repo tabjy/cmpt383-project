@@ -8,6 +8,8 @@ import com.tabjy.cmpt383.project.services.SubmissionService;
 import javax.inject.Inject;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.List;
 
@@ -19,6 +21,7 @@ public class SubmissionResource {
 
     @POST
     @Path("/test")
+    @Produces(MediaType.APPLICATION_JSON)
     public List<Result> test(Submission submission) throws IOException, LanguageNotSupportedException {
         return submissionService.testAllCases(submission);
     }
