@@ -27,41 +27,11 @@
       app
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-btn
-        icon
-        @click.stop="fixed = !fixed"
-      >
-        <v-icon>mdi-minus</v-icon>
-      </v-btn>
       <v-toolbar-title v-text="title" />
-      <v-spacer />
-      <v-btn
-        icon
-        @click.stop="rightDrawer = !rightDrawer"
-      >
-        <v-icon>mdi-menu</v-icon>
-      </v-btn>
     </v-app-bar>
     <v-main>
       <nuxt />
     </v-main>
-    <v-navigation-drawer
-      v-model="rightDrawer"
-      :right="right"
-      temporary
-      fixed
-    >
-      <v-list>
-        <v-list-item @click.native="right = !right">
-          <v-list-item-action>
-            <v-icon light>
-              mdi-repeat
-            </v-icon>
-          </v-list-item-action>
-          <v-list-item-title>Switch drawer (click me)</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
   </v-app>
 </template>
 
@@ -70,22 +40,21 @@ export default {
   data () {
     return {
       drawer: false,
-      fixed: false,
       items: [
         {
-          icon: 'mdi-apps',
+          icon: 'mdi-chart-bubble',
           title: 'Welcome',
           to: '/'
         },
         {
-          icon: 'mdi-code-braces',
-          title: 'Editor',
-          to: '/editor'
+          icon: 'mdi-format-list-bulleted',
+          title: 'Problems',
+          to: '/problems'
         },
         {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire'
+          icon: 'mdi-code-braces',
+          title: 'Editor',
+          to: '/editor?problemId=5fd2a2f10dfb1770642e13d4'
         }
       ],
       right: true,

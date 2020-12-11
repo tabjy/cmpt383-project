@@ -38,9 +38,16 @@
             <v-btn
               color="primary"
               nuxt
-              to="/editor"
+              to="/editor?problemId=5fd2a2f10dfb1770642e13d4"
             >
-              Open Editor
+              Try the easiest problem
+            </v-btn>
+            <v-btn
+              color="primary"
+              nuxt
+              to="/problems"
+            >
+              Show me all you got
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -57,6 +64,11 @@ export default {
   components: {
     Logo,
     VuetifyLogo
+  },
+  head () {
+    return {
+      title: 'Welcome'
+    }
   }
 }
 </script>
