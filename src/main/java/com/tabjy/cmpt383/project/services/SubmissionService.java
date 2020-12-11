@@ -5,20 +5,21 @@ import com.tabjy.cmpt383.project.judge.LanguageNotSupportedException;
 import com.tabjy.cmpt383.project.judge.SolutionContext;
 import com.tabjy.cmpt383.project.judge.builder.BuildStrategies;
 import com.tabjy.cmpt383.project.judge.runner.RunStrategies;
+import com.tabjy.cmpt383.project.models.Record;
 import com.tabjy.cmpt383.project.models.*;
 import io.quarkus.mongodb.panache.PanacheMongoRepository;
-import org.apache.commons.codec.language.bm.Lang;
+import org.jboss.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @ApplicationScoped
 public class SubmissionService implements PanacheMongoRepository<Submission> {
@@ -34,8 +35,12 @@ public class SubmissionService implements PanacheMongoRepository<Submission> {
         );
     }
 
+    private static final Logger LOG = Logger.getLogger(SubmissionService.class);
+
     @Inject
     ProblemService problemService;
+    @Inject
+    RecordService recordService;
 
     private Result compile(Submission submission, Problem problem, SolutionContext ctx) throws LanguageNotSupportedException, IOException {
         Optional<Template> template = problem.templates.stream().filter(t -> t.language == submission.language).findFirst();
@@ -87,7 +92,7 @@ public class SubmissionService implements PanacheMongoRepository<Submission> {
         return r;
     }
 
-    public List<Result> testAllCases(Submission submission) throws IOException, LanguageNotSupportedException {
+    private List<Result> testAllTestCases(Submission submission, boolean includeHidden) throws IOException, LanguageNotSupportedException {
         Problem problem = problemService.findById(submission.problemId);
         SolutionContext ctx = new SolutionContext();
         Result result = compile(submission, problem, ctx);
@@ -96,10 +101,54 @@ public class SubmissionService implements PanacheMongoRepository<Submission> {
         }
 
         List<Result> results = new ArrayList<>();
-        for (TestCase tc : problem.testCases) {
+        List<TestCase> testCases = includeHidden ? ProblemService.removeHiddenTestCases(problem).testCases : problem.testCases;
+        for (TestCase tc : testCases) {
             results.add(testOneCase(submission, ctx, tc));
         }
 
         return results;
+    }
+
+    public List<Result> testSubmission(Submission submission) throws IOException, LanguageNotSupportedException {
+        return testAllTestCases(submission, false);
+    }
+
+    public Record gradeSubmission(Submission submission, String username, String gravatarId) throws IOException, LanguageNotSupportedException {
+        this.persist(submission);
+        Record record = new Record();
+        record.problemId = submission.problemId;
+        record.submissionId = submission.id;
+        record.language = submission.language;
+        record.acceptance = Acceptance.ac;
+        record.username = username;
+        record.gravatarHash = "00000000000000000000000000000000";
+        record.datetime = new Date();
+        record.runtime = -1;
+
+        List<Result> results = testAllTestCases(submission, true);
+        for (Result r : results) {
+            if (r.acceptance != Acceptance.ac) {
+                record.acceptance = r.acceptance;
+            }
+        }
+
+        if (record.acceptance == Acceptance.ac) {
+            for (Result r : results) {
+                if (r.runtime > record.runtime) {
+                    record.runtime = r.runtime;
+                }
+            }
+        }
+
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(gravatarId.trim().toLowerCase().getBytes());
+            byte[] digest = md.digest();
+            record.gravatarHash = DatatypeConverter.printHexBinary(digest).toLowerCase();
+        } catch (NoSuchAlgorithmException e) {
+            LOG.warn("cannot perform md5", e);
+        }
+
+        return recordService.create(record);
     }
 }

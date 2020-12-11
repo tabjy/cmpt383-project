@@ -1,7 +1,13 @@
 <template>
   <v-container fill-height style="max-width: none; padding: 0; display: block; ">
     <v-row style="height: 64px; background-color: lightgrey">
-      <v-col cols="4" style="background-color: #eee" />
+      <v-col cols="4" style="background-color: #eee">
+        <v-btn
+          style="margin-left: 12px;"
+        >
+          Leaderboard
+        </v-btn>
+      </v-col>
       <v-col cols="2">
         <v-select
           v-model="language"
@@ -16,27 +22,115 @@
         class="text-right"
       >
         <v-btn
-          depressed
           style="margin-right: 12px;"
-          :disabled="evaluating"
+          :disabled="testing"
           @click="test"
         >
           Test
         </v-btn>
-        <v-btn
-          depressed
-          color="primary"
-          style="margin-right: 12px;"
-          :disabled="evaluating"
-          @click="submit"
+        <v-dialog
+          v-model="dialog"
+          width="500"
         >
-          Submit
-        </v-btn>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              color="primary"
+              style="margin-right: 12px;"
+              :disabled="testing"
+              v-bind="attrs"
+              v-on="on"
+            >
+              Submit
+            </v-btn>
+          </template>
+
+          <v-card>
+            <v-card-title class="headline grey lighten-2">
+              {{ !record.id ? 'Submitting your solution' : 'Solution submitted!' }}
+            </v-card-title>
+
+            <v-card-text style="margin-top: 16px">
+              <template v-if="!submitting && !record.id">
+                <p>
+                  By submitting your solution, you automatically enters the leaderboard for this problem.
+                  You can submit as many times as you want, but all submissions will be recorded.
+                </p>
+                <p>
+                  The email input is optional. Only the hash value for your address is stored for displaying a
+                  <a
+                    href="https://gravatar.com/"
+                    target="_blank">Gravatar
+                  </a> profile picture (if any).
+                </p>
+
+                <v-form
+                  ref="form"
+                  v-model="valid"
+                  lazy-validation
+                >
+                  <v-text-field
+                    v-model="username"
+                    :counter="10"
+                    :rules="usernameRules"
+                    label="Username*"
+                    required
+                  ></v-text-field>
+
+                  <v-text-field
+                    v-model="email"
+                    :rules="emailRules"
+                    label="E-mail"
+                    required
+                  ></v-text-field>
+                </v-form>
+              </template>
+
+              <div
+                v-if="submitting"
+                class="text-center">
+                <v-progress-circular
+                  indeterminate
+                  color="primary"
+                />
+                <p>Grading your solution...</p>
+              </div>
+
+              <template v-if="record.id">
+                <h2>Your grade:</h2>
+                <p>Acceptance: {{ `${record.acceptance.toUpperCase()} (${acceptanceToString(record.acceptance)})` }}</p>
+                <p>Language: {{ record.language }}</p>
+                <p v-if="record.acceptance === 'ac'">Runtime: {{ record.runtime }}ms</p>
+                <p>Date: {{ (new Date(record.datetime)).toLocaleString() }}</p>
+              </template>
+
+            </v-card-text>
+
+            <v-divider></v-divider>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                text
+                @click="dialog = false"
+              >
+                Cancel
+              </v-btn>
+              <v-btn
+                color="primary"
+                text
+                :disabled="!valid || !username"
+                @click="submit"
+              >
+                Submit
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </v-col>
     </v-row>
     <v-row style="height: calc(100% - 64px)">
       <v-col style="background-color: #eee; padding: 12px 12px 12px 24px;" cols="4">
-        <v-row v-show="problem.id" style="padding: 0 16px 0 16px" v-html="problem.description" />
+        <v-row v-show="problem.id" style="padding: 0 16px 0 16px" v-html="problem.description"/>
         <v-row v-show="!problem.id" align="center" justify="center" style="height: 100%">
           <div class="text-center">
             <v-progress-circular
@@ -65,9 +159,14 @@
             </div>
           </v-row>
         </v-row>
-        <v-row style="height: 150px; background-color: #333; padding: 12px; display: block; overflow-y: scroll; font-family: monospace; font-size: 10pt; color: lightgrey">
-          <pre v-if="evaluating > 0" style="width: 100%">Evaluating...</pre>
-          <pre v-for="(result, index) in results" :key="result.runtime" style="width: 100%;" :style="{color: result.acceptance === 'ac' ? 'lightgreen' : 'red'}">{{
+        <v-row
+          style="height: 150px; background-color: #333; padding: 12px; display: block; overflow-y: scroll; font-family: monospace; font-size: 10pt; color: lightgrey">
+          <pre v-if="testing > 0" style="width: 100%">Evaluating...</pre>
+          <pre
+            v-for="(result, index) in results"
+            :key="result.runtime"
+            style="width: 100%;"
+            :style="{color: result.acceptance === 'ac' ? 'lightgreen' : 'red'}">{{
               (() => {
                 switch (result.acceptance) {
                   case 'ac':
@@ -81,8 +180,10 @@
                 }
                 return ''
               })()
-          }}</pre>
-          <pre v-if="results.length > 0" style="width: 100%">{{ results.filter(r => r.acceptance === 'ac').length }} out of {{ results.length }} test cases passed!</pre>
+            }}</pre>
+          <pre v-if="results.length > 0" style="width: 100%">{{ results.filter(r => r.acceptance === 'ac').length }} out of {{
+              results.length
+            }} test cases passed!</pre>
         </v-row>
       </v-col>
     </v-row>
@@ -96,9 +197,8 @@ html {
 </style>
 
 <script>
-// eslint-disable-next-line no-unused-vars
-const baseUrl = document.location.origin
-// const baseUrl = 'http://0.0.0.0:8080'
+// const baseUrl = document.location.origin
+const baseUrl = 'http://0.0.0.0:8080'
 
 let editor
 let resolveFunc = () => {}
@@ -114,15 +214,48 @@ export default {
         templates: []
       },
       language: null,
-      evaluating: false,
+      testing: false,
+      submitting: false,
       editorLoaded: false,
       problemLoaded: false,
-      results: []
+      results: [],
+      record: {
+        id: null,
+        problemId: null,
+        submissionId: null,
+        acceptance: null,
+        username: null,
+        gravatarHash: null,
+        datetime: null,
+        runtime: 0
+      },
+      dialog: false,
+      valid: false,
+      username: '',
+      email: '',
+      usernameRules: [
+        v => !!v || 'Username is required',
+        v => v.length <= 10 || 'Name must be less than 10 characters'
+      ],
+      emailRules: [
+        (v) => {
+          if (!v) {
+            return true
+          }
+          return /.+@.+\..+/.test(v) || 'E-mail must be valid'
+        }
+      ]
     }
   },
   watch: {
     language (event) {
       this.reloadTemplate()
+    },
+    dialog (event) {
+      if (!this.dialog) {
+        this.record = {}
+        this.submitting = false
+      }
     }
   },
   mounted () {
@@ -154,6 +287,24 @@ export default {
     })
   },
   methods: {
+    acceptanceToString (acceptance) {
+      switch (acceptance) {
+        case 'ac':
+          return 'Accepted'
+        case 'wa':
+          return 'Wrong Answer'
+        case 'tle':
+          return 'Time Limit Exceeded'
+        case 'mle':
+          return 'Memory Limit Exceeded'
+        case 're':
+          return 'Runtime Error'
+        case 'ce':
+          return 'Compile Error'
+        default:
+          return acceptance.toUpperCase()
+      }
+    },
     reloadTemplate () {
       if (!this.language || !this.editorLoaded) {
         return
@@ -167,7 +318,7 @@ export default {
       editor.contentWindow.postMessage(JSON.stringify(params), '*')
     },
     test (event) {
-      this.evaluating = true
+      this.testing = true
       this.results = []
       const p = new Promise((resolve, reject) => { resolveFunc = resolve })
       editor.contentWindow.postMessage(JSON.stringify({ method: 'getValue' }), '*')
@@ -187,12 +338,34 @@ export default {
         }).catch((err) => {
           alert(err.response ? err.response.data.details : 'Cannot communicate with the server!')
         }).finally(() => {
-          this.evaluating = false
+          this.testing = false
         })
       })
     },
     submit (event) {
-      // TODO
+      this.submitting = true
+      this.record = {}
+      const p = new Promise((resolve, reject) => { resolveFunc = resolve })
+      editor.contentWindow.postMessage(JSON.stringify({ method: 'getValue' }), '*')
+      p.then((value) => {
+        const url = new URL(document.location.href)
+        const params = {
+          problemId: url.searchParams.get('problemId'),
+          language: this.language,
+          files: [{
+            path: this.problem.templates.find(t => t.language === this.language).files.find(f => f.editable).path,
+            content: value,
+            editable: true
+          }]
+        }
+        this.$axios.post(`${baseUrl}/api/submission?username=${encodeURIComponent(this.username)}&email=${encodeURIComponent(this.email)}`, params).then((resp) => {
+          this.record = resp.data
+        }).catch((err) => {
+          alert(err.response ? err.response.data.details : 'Cannot communicate with the server!')
+        }).finally(() => {
+          this.submitting = false
+        })
+      })
     }
   }
 }
