@@ -59,7 +59,7 @@ public abstract class DockerBasedRunStrategy implements IRunStrategy {
         System.arraycopy(args, 0, cmd, pos, args.length);
 
         LOG.infov("exec command: {0}", String.join(" ", cmd));
-        ExecResult result = SystemUtils.exec(cmd);
+        ExecResult result = SystemUtils.exec(cmd, stdin);
 
         if (!FileUtils.deleteRecursively(dir)) {
             LOG.warn("failed to delete temp directory");

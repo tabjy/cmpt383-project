@@ -72,7 +72,7 @@ public class SubmissionService implements PanacheMongoRepository<Submission> {
 
     public Result testOneCase(Submission submission, SolutionContext ctx, TestCase testCase) throws IOException {
         Instant then = Instant.now();
-        ExecResult er = ctx.run(LANGUAGE_TO_OUTPUT_FILENAMES.get(submission.language), new String[0], testCase.in.getBytes(StandardCharsets.UTF_8));
+        ExecResult er = ctx.run(LANGUAGE_TO_OUTPUT_FILENAMES.get(submission.language), testCase.in.toArray(String[]::new), new byte[0]);
         Instant now = Instant.now();
 
         System.out.println(er.toString());

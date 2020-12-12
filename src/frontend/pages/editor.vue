@@ -33,6 +33,19 @@
                 Leaderboard
               </v-btn>
             </v-slide-item>
+
+            <v-slide-item>
+              <v-btn
+                class="mx-2"
+                :input-value="false"
+                active-class="primary white--text"
+                rounded
+                depressed
+                @click="open('/problems', '_blank')"
+              >
+                More problems
+              </v-btn>
+            </v-slide-item>
           </v-slide-group>
         </v-row>
         <template v-if="view === 'overview'">
@@ -313,8 +326,8 @@ html {
 </style>
 
 <script>
-// const baseUrl = document.location.origin
-const baseUrl = 'http://0.0.0.0:8080'
+const baseUrl = document.location.origin
+// const baseUrl = 'http://0.0.0.0:8080'
 
 let editor
 let resolveFunc = () => {}
@@ -421,6 +434,9 @@ export default {
     this.refreshLeaderboard()
   },
   methods: {
+    open (...args) {
+      window.open(...args)
+    },
     refreshLeaderboard () {
       this.leaderboard = []
       this.leaderboardLoaded = false

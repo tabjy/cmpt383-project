@@ -40,7 +40,7 @@ public class SystemUtils {
                 lines.add(new ExecResult.Line(ExecResult.Line.Stream.STDERR, new Date(), line)));
 
         p.getOutputStream().write(stdin);
-        p.getOutputStream().close();
+//        p.getOutputStream().close();
 
         int exitCode = 1;
         try {

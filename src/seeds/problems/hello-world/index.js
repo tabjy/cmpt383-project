@@ -5,12 +5,12 @@ module.exports = async () => ({
     _id: {
         $oid: "5fd2a2f10dfb1770642e13d4"
     },
-    title: 'Hello, world',
+    title: 'Hello, world!',
     difficulty: 'easy',
     description: markdown.toHTML(await readFile(__dirname + '/description.md', 'utf-8')),
     testCases: [
         {
-            in: '',
+            in: [],
             out: 'Hello, world!',
             hidden: false
         }

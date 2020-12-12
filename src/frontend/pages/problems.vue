@@ -32,8 +32,8 @@
 </style>
 
 <script>
-// const baseUrl = document.location.origin
-const baseUrl = 'http://0.0.0.0:8080'
+const baseUrl = document.location.origin
+// const baseUrl = 'http://0.0.0.0:8080'
 
 export default {
   data () {
