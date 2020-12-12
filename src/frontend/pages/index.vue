@@ -17,19 +17,29 @@
             <ul>
               <li>JavaScript: the web front-end. This project uses Vue.js framework and Vuetify UI component library.</li>
               <li>Java: the application server and judge server. The server is built with Quarkus and is compatible with GraalVM native-image (although default in JVM mode to save your compiling time).</li>
-              <li>C/C++/Java/JavaScript/Python: There are the languages supported for solving problems. I've done quite amount of code in these languages for each question to handle IO.</li>
+              <li>C/C++/Java/JavaScript/Python: languages supported for solving problems. I've done quite amount of code in these languages for each question to handle IO.</li>
             </ul>
+            <br />
 
             <h3>Inter-languages communication used in this project</h3>
             <ul>
-              <li>REST: used by the web front-end and the application server.</li>
+              <li>REST API: used by the web front-end and the application server.</li>
               <li>Standard Streams: used by judge server to communicate runner/builder containers, and with your solution code.</li>
             </ul>
+            <br />
 
             <h3>Complexity</h3>
             <p>
               The amount of work required for this project is non-trivial. I've logged 50+ hours in making of project with ~40 commits.
             </p>
+            <ul>
+              <li>Java: ~1.3k LOC</li>
+              <li>JavaScript: ~400 LOC</li>
+              <li>Vue (mix of JavaScript and HTML): ~1k LOC</li>
+              <li>C: 100 LOC</li>
+              <li>C++: 18 LOC</li>
+              <li>Python: 51 LOC</li>
+            </ul>
           </v-card-text>
           <v-card-actions>
             <v-spacer />

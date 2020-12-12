@@ -7,7 +7,7 @@ export default {
 
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
-    titleTemplate: '%s - CMPT 383 Project',
+    titleTemplate: '%s - Cinlc',
     title: 'frontend',
     meta: [
       { charset: 'utf-8' },

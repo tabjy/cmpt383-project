@@ -59,7 +59,7 @@ export default {
       ],
       right: true,
       rightDrawer: false,
-      title: 'CMPT-383 Project'
+      title: 'Cinlc: Cinlc Is Not Leet Code'
     }
   }
 }
