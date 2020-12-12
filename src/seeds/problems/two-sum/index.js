@@ -27,6 +27,21 @@ module.exports = async () => ({
     ],
     templates: [
         {
+            language: 'c',
+            files: [
+                {
+                    path: 'main.c',
+                    content: await readFile(__dirname + '/c/main.c', 'utf-8'),
+                    editable: false
+                },
+                {
+                    path: 'solution.c',
+                    content: await readFile(__dirname + '/c/solution.c', 'utf-8'),
+                    editable: true
+                }
+            ]
+        },
+        {
             language: 'java',
             files: [
                 {
