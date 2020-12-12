@@ -4,12 +4,13 @@ WORKDIR /work/
 RUN microdnf install nodejs && microdnf clean all
 
 COPY . .
-RUN npm install && npm run generate
+RUN echo Generating problem database seeds... && npm install && npm run generate
 
 FROM mongo
 
 COPY --from=seed-builder /work/out/ .
 
-#RUN cat problems.json
 CMD mongoimport --host mongodb --port 27017 --db cmpt383 --collection Problems --drop --file problems.json --jsonArray && \
+    mongoimport --host mongodb --port 27017 --db cmpt383 --collection Records --drop --file records.json --jsonArray && \
+    mongoimport --host mongodb --port 27017 --db cmpt383 --collection Submissions --drop --file submissions.json --jsonArray && \
     echo Seeds imported!

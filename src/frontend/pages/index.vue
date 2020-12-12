@@ -2,10 +2,6 @@
   <v-container>
     <v-row justify="center" align="center">
       <v-col cols="12" sm="8" md="6">
-        <div class="text-center">
-          <logo />
-          <vuetify-logo />
-        </div>
         <v-card>
           <v-card-title class="headline">
             Welcome to my CMPT-383 project!
@@ -16,21 +12,23 @@
               practice. The system has a set of programming questions mainly on topics of algorithm and data
               structures.
             </p>
+
+            <h3>Languages used in this project</h3>
+            <ul>
+              <li>JavaScript: the web front-end. This project uses Vue.js framework and Vuetify UI component library.</li>
+              <li>Java: the application server and judge server. The server is built with Quarkus and is compatible with GraalVM native-image (although default in JVM mode to save your compiling time).</li>
+              <li>C/C++/Java/JavaScript/Python: There are the languages supported for solving problems. I've done quite amount of code in these languages for each question to handle IO.</li>
+            </ul>
+
+            <h3>Inter-languages communication used in this project</h3>
+            <ul>
+              <li>REST: used by the web front-end and the application server.</li>
+              <li>Standard Streams: used by judge server to communicate runner/builder containers, and with your solution code.</li>
+            </ul>
+
+            <h3>Complexity</h3>
             <p>
-              Contestants will use the website to view problems. Contestants will write code to solve problems. An
-              in-browser code editor with basic highlighting and autocomplete will be available. Once submitted,
-              the contestant's code will be compiled and executed on a judge server against multiple, possibly
-              hidden test cases for validity.
-            </p>
-            <p>
-              Contestants' performances are measured by programs' usage of CPU time and RAM. A leader board ranks
-              all contestants who have submitted a solution for a question. Only contestants with accepted
-              solutions will enter the leader board.
-            </p>
-            <p>
-              <em>
-                THIS BUILD IS WORK-IN-PROGRESS!
-              </em>
+              The amount of work required for this project is non-trivial. I've logged 50+ hours in making of project with ~40 commits.
             </p>
           </v-card-text>
           <v-card-actions>
@@ -61,10 +59,6 @@ import Logo from '~/components/Logo.vue'
 import VuetifyLogo from '~/components/VuetifyLogo.vue'
 
 export default {
-  components: {
-    Logo,
-    VuetifyLogo
-  },
   head () {
     return {
       title: 'Welcome'

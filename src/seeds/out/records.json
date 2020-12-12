@@ -1,0 +1,235 @@
+[{
+  "_id": {
+    "$oid": "5fd451418f7fbb065ff65377"
+  },
+  "acceptance": "ce",
+  "datetime": {
+    "$date": "2020-12-12T05:12:32.107Z"
+  },
+  "gravatarHash": "a1f51805c6b3bd39052318cd99ba0cbf",
+  "language": "c",
+  "problemId": {
+    "$oid": "5fd2a2f10dfb1770642e13d4"
+  },
+  "runtime": -1,
+  "submissionId": {
+    "$oid": "5fd451408f7fbb065ff65376"
+  },
+  "username": "TiniTitan"
+},{
+  "_id": {
+    "$oid": "5fd4514b8f7fbb065ff65379"
+  },
+  "acceptance": "re",
+  "datetime": {
+    "$date": "2020-12-12T05:12:41.280Z"
+  },
+  "gravatarHash": "a1f51805c6b3bd39052318cd99ba0cbf",
+  "language": "c",
+  "problemId": {
+    "$oid": "5fd2a2f10dfb1770642e13d4"
+  },
+  "runtime": -1,
+  "submissionId": {
+    "$oid": "5fd451498f7fbb065ff65378"
+  },
+  "username": "TiniTitan"
+},{
+  "_id": {
+    "$oid": "5fd451598f7fbb065ff6537b"
+  },
+  "acceptance": "ac",
+  "datetime": {
+    "$date": "2020-12-12T05:12:55.946Z"
+  },
+  "gravatarHash": "a1f51805c6b3bd39052318cd99ba0cbf",
+  "language": "c",
+  "problemId": {
+    "$oid": "5fd2a2f10dfb1770642e13d4"
+  },
+  "runtime": 662,
+  "submissionId": {
+    "$oid": "5fd451578f7fbb065ff6537a"
+  },
+  "username": "TiniTitan"
+},{
+  "_id": {
+    "$oid": "5fd451768f7fbb065ff6537d"
+  },
+  "acceptance": "ac",
+  "datetime": {
+    "$date": "2020-12-12T05:13:25.954Z"
+  },
+  "gravatarHash": "f5dffba83e521bc4921927ccb887a13d",
+  "language": "javascript",
+  "problemId": {
+    "$oid": "5fd2a2f10dfb1770642e13d4"
+  },
+  "runtime": 842,
+  "submissionId": {
+    "$oid": "5fd451758f7fbb065ff6537c"
+  },
+  "username": "Tabjy"
+},{
+  "_id": {
+    "$oid": "5fd451808f7fbb065ff6537f"
+  },
+  "acceptance": "wa",
+  "datetime": {
+    "$date": "2020-12-12T05:13:35.198Z"
+  },
+  "gravatarHash": "f5dffba83e521bc4921927ccb887a13d",
+  "language": "javascript",
+  "problemId": {
+    "$oid": "5fd2a2f10dfb1770642e13d4"
+  },
+  "runtime": -1,
+  "submissionId": {
+    "$oid": "5fd4517f8f7fbb065ff6537e"
+  },
+  "username": "Tabjy"
+},{
+  "_id": {
+    "$oid": "5fd451958f7fbb065ff65381"
+  },
+  "acceptance": "ac",
+  "datetime": {
+    "$date": "2020-12-12T05:13:55.844Z"
+  },
+  "gravatarHash": "f5dffba83e521bc4921927ccb887a13d",
+  "language": "cpp",
+  "problemId": {
+    "$oid": "5fd2a2f10dfb1770642e13d4"
+  },
+  "runtime": 751,
+  "submissionId": {
+    "$oid": "5fd451938f7fbb065ff65380"
+  },
+  "username": "Tabjy"
+},{
+  "_id": {
+    "$oid": "5fd451ab8f7fbb065ff65383"
+  },
+  "acceptance": "ac",
+  "datetime": {
+    "$date": "2020-12-12T05:14:18.912Z"
+  },
+  "gravatarHash": "b81718a3dc3b6afa677dca6431dcf9a3",
+  "language": "python",
+  "problemId": {
+    "$oid": "5fd2a2f10dfb1770642e13d4"
+  },
+  "runtime": 788,
+  "submissionId": {
+    "$oid": "5fd451aa8f7fbb065ff65382"
+  },
+  "username": "arvinx"
+},{
+  "_id": {
+    "$oid": "5fd4520b8f7fbb065ff65385"
+  },
+  "acceptance": "ac",
+  "datetime": {
+    "$date": "2020-12-12T05:15:53.456Z"
+  },
+  "gravatarHash": "05cc3aef40ba610817a76f2caa5ad414",
+  "language": "java",
+  "problemId": {
+    "$oid": "5fd2a2f10dfb1770642e13d4"
+  },
+  "runtime": 787,
+  "submissionId": {
+    "$oid": "5fd452098f7fbb065ff65384"
+  },
+  "username": "Cooooole"
+},{
+  "_id": {
+    "$oid": "5fd452848f7fbb065ff65387"
+  },
+  "acceptance": "wa",
+  "datetime": {
+    "$date": "2020-12-12T05:17:53.727Z"
+  },
+  "gravatarHash": "b81718a3dc3b6afa677dca6431dcf9a3",
+  "language": "c",
+  "problemId": {
+    "$oid": "5fd40dde970bbd8a64bf71d9"
+  },
+  "runtime": -1,
+  "submissionId": {
+    "$oid": "5fd452818f7fbb065ff65386"
+  },
+  "username": "arvinx"
+},{
+  "_id": {
+    "$oid": "5fd452a68f7fbb065ff65389"
+  },
+  "acceptance": "ac",
+  "datetime": {
+    "$date": "2020-12-12T05:18:26.603Z"
+  },
+  "gravatarHash": "bcca2a86a74a89b5c8794571c5303a41",
+  "language": "java",
+  "problemId": {
+    "$oid": "5fd40dde970bbd8a64bf71d9"
+  },
+  "runtime": 886,
+  "submissionId": {
+    "$oid": "5fd452a28f7fbb065ff65388"
+  },
+  "username": "kxu"
+},{
+  "_id": {
+    "$oid": "5fd453588f7fbb065ff6538b"
+  },
+  "acceptance": "ac",
+  "datetime": {
+    "$date": "2020-12-12T05:21:25.554Z"
+  },
+  "gravatarHash": "f5dffba83e521bc4921927ccb887a13d",
+  "language": "python",
+  "problemId": {
+    "$oid": "5fd40dde970bbd8a64bf71d9"
+  },
+  "runtime": 1217,
+  "submissionId": {
+    "$oid": "5fd453558f7fbb065ff6538a"
+  },
+  "username": "Tabjy"
+},{
+  "_id": {
+    "$oid": "5fd453718f7fbb065ff6538d"
+  },
+  "acceptance": "ac",
+  "datetime": {
+    "$date": "2020-12-12T05:21:50.655Z"
+  },
+  "gravatarHash": "a1f51805c6b3bd39052318cd99ba0cbf",
+  "language": "javascript",
+  "problemId": {
+    "$oid": "5fd40dde970bbd8a64bf71d9"
+  },
+  "runtime": 1359,
+  "submissionId": {
+    "$oid": "5fd4536e8f7fbb065ff6538c"
+  },
+  "username": "TiniTitan"
+},{
+  "_id": {
+    "$oid": "5fd453918f7fbb065ff6538f"
+  },
+  "acceptance": "ce",
+  "datetime": {
+    "$date": "2020-12-12T05:22:24.215Z"
+  },
+  "gravatarHash": "05cc3aef40ba610817a76f2caa5ad414",
+  "language": "java",
+  "problemId": {
+    "$oid": "5fd40dde970bbd8a64bf71d9"
+  },
+  "runtime": -1,
+  "submissionId": {
+    "$oid": "5fd453908f7fbb065ff6538e"
+  },
+  "username": "Cooooole"
+}]

@@ -1,0 +1,196 @@
+[{
+  "_id": {
+    "$oid": "5fd451408f7fbb065ff65376"
+  },
+  "files": [
+    {
+      "content": "char* hello_world()\n{\n    // TODO: solve the problem by uncommenting the following line\n    // return \"Hello, world!\";\n    return 0\n}",
+      "editable": true,
+      "path": "solution.c"
+    }
+  ],
+  "language": "c",
+  "problemId": {
+    "$oid": "5fd2a2f10dfb1770642e13d4"
+  }
+},{
+  "_id": {
+    "$oid": "5fd451498f7fbb065ff65378"
+  },
+  "files": [
+    {
+      "content": "char* hello_world()\n{\n    // TODO: solve the problem by uncommenting the following line\n    // return \"Hello, world!\";\n    return 0;\n}",
+      "editable": true,
+      "path": "solution.c"
+    }
+  ],
+  "language": "c",
+  "problemId": {
+    "$oid": "5fd2a2f10dfb1770642e13d4"
+  }
+},{
+  "_id": {
+    "$oid": "5fd451578f7fbb065ff6537a"
+  },
+  "files": [
+    {
+      "content": "char* hello_world()\n{\n    // TODO: solve the problem by uncommenting the following line\n    // return \"Hello, world!\";\n    return \"Hello, world!\";\n}",
+      "editable": true,
+      "path": "solution.c"
+    }
+  ],
+  "language": "c",
+  "problemId": {
+    "$oid": "5fd2a2f10dfb1770642e13d4"
+  }
+},{
+  "_id": {
+    "$oid": "5fd451758f7fbb065ff6537c"
+  },
+  "files": [
+    {
+      "content": "module.exports = function helloWorld() {\n    // TODO: solve the problem by uncommenting the following line\n    return 'Hello, world!'\n    // return null\n}",
+      "editable": true,
+      "path": "solution.js"
+    }
+  ],
+  "language": "javascript",
+  "problemId": {
+    "$oid": "5fd2a2f10dfb1770642e13d4"
+  }
+},{
+  "_id": {
+    "$oid": "5fd4517f8f7fbb065ff6537e"
+  },
+  "files": [
+    {
+      "content": "module.exports = function helloWorld() {\n    // TODO: solve the problem by uncommenting the following line\n    return 'Hello, world'\n    // return null\n}",
+      "editable": true,
+      "path": "solution.js"
+    }
+  ],
+  "language": "javascript",
+  "problemId": {
+    "$oid": "5fd2a2f10dfb1770642e13d4"
+  }
+},{
+  "_id": {
+    "$oid": "5fd451938f7fbb065ff65380"
+  },
+  "files": [
+    {
+      "content": "#include <string>\n\nclass Solution\n{\n    public:\n        std::string hello_world()\n        {\n            // TODO: solve the problem by uncommenting the following line\n            return \"Hello, world!\";\n            // return 0;\n        }\n};",
+      "editable": true,
+      "path": "solution.cpp"
+    }
+  ],
+  "language": "cpp",
+  "problemId": {
+    "$oid": "5fd2a2f10dfb1770642e13d4"
+  }
+},{
+  "_id": {
+    "$oid": "5fd451aa8f7fbb065ff65382"
+  },
+  "files": [
+    {
+      "content": "class Solution(object):\n    def helloWorld(self):\n        # TODO: solve the problem by uncommenting the following line\n        return \"Hello, world!\"\n        # return None\n",
+      "editable": true,
+      "path": "solution.py"
+    }
+  ],
+  "language": "python",
+  "problemId": {
+    "$oid": "5fd2a2f10dfb1770642e13d4"
+  }
+},{
+  "_id": {
+    "$oid": "5fd452098f7fbb065ff65384"
+  },
+  "files": [
+    {
+      "content": "public class Solution {\n    public String helloWorld() {\n        // TODO: solve the problem by uncommenting the following line\n        return \"Hello, world!\";\n        // return null;\n    }\n}",
+      "editable": true,
+      "path": "Solution.java"
+    }
+  ],
+  "language": "java",
+  "problemId": {
+    "$oid": "5fd2a2f10dfb1770642e13d4"
+  }
+},{
+  "_id": {
+    "$oid": "5fd452818f7fbb065ff65386"
+  },
+  "files": [
+    {
+      "content": "int* two_sum(int* nums, int nums_size, int target, int* return_size)\n{\n    *return_size = 0;\n    return 0;\n}\n\n// For demonstration purposes, I've prepared a solution for you:\n//#include <stdlib.h>\n//\n//#define SIZE 50000\n//\n//int hash(int key) {\n//    int r = key % SIZE;\n//    return r < 0 ? r + SIZE : r;\n//}\n//\n//void insert(int *keys, int *values, int key, int value) {\n//    int index = hash(key);\n//    while (values[index]) {\n//        index = (index + 1) % SIZE;\n//    }\n//    keys[index] = key;\n//    values[index] = value;\n//}\n//\n//int search(int *keys, int *values, int key) {\n//    int index = hash(key);\n//    while (values[index]) {\n//        if (keys[index] == key) {\n//            return values[index];\n//        }\n//        index = (index + 1) % SIZE;\n//    }\n//    return 0;\n//}\n//\n//int* two_sum(int* nums, int nums_size, int target, int* return_size) {\n//    *return_size = 2;\n//    int keys[SIZE];\n//    int values[SIZE] = {0};\n//    for (int i = 0; i < nums_size; i++) {\n//        int complements = target - nums[i];\n//        int value = search(keys, values, complements);\n//        if (value) {\n//            int *indices = (int *) malloc(sizeof(int) * 2);\n//            indices[0] = value - 1;\n//            indices[1] = i;\n//            return indices;\n//        }\n//        insert(keys, values, nums[i], i + 1);\n//    }\n//    return 0;\n//}",
+      "editable": true,
+      "path": "solution.c"
+    }
+  ],
+  "language": "c",
+  "problemId": {
+    "$oid": "5fd40dde970bbd8a64bf71d9"
+  }
+},{
+  "_id": {
+    "$oid": "5fd452a28f7fbb065ff65388"
+  },
+  "files": [
+    {
+      "content": "public class Solution {\n    // public int[] twoSum(int[] nums, int target) {\n    //     // TODO: work your solution here\n    //     return new int[0];\n    // }\n\n    // For demonstration purposes, I've prepared a solution for you:\n    public int[] twoSum(int[] nums, int target) {\n        for (int i = 0; i < nums.length; i++) {\n           for (int j = i + 1; j < nums.length; j++) {\n               if (nums[j] == target - nums[i]) {\n                   return new int[] { i, j };\n               }\n           }\n        }\n        throw new IllegalArgumentException(\"No two sum solution\");\n    }\n}",
+      "editable": true,
+      "path": "Solution.java"
+    }
+  ],
+  "language": "java",
+  "problemId": {
+    "$oid": "5fd40dde970bbd8a64bf71d9"
+  }
+},{
+  "_id": {
+    "$oid": "5fd453558f7fbb065ff6538a"
+  },
+  "files": [
+    {
+      "content": "class Solution(object):\n    # def twoSum(self, nums, target):\n    #     \"\"\"\n    #     :type nums: List[int]\n    #     :type target: int\n    #     :rtype: List[int]\n    #     \"\"\"\n    #     # TODO: work your solution here\n    #     return []\n\n    # For demonstration purposes, I've prepared a solution for you:\n    def twoSum(self, nums, target):\n        h = {}\n        for i, num in enumerate(nums):\n            n = target - num\n            if n not in h:\n                h[num] = i\n            else:\n                return [h[n], i]\n",
+      "editable": true,
+      "path": "solution.py"
+    }
+  ],
+  "language": "python",
+  "problemId": {
+    "$oid": "5fd40dde970bbd8a64bf71d9"
+  }
+},{
+  "_id": {
+    "$oid": "5fd4536e8f7fbb065ff6538c"
+  },
+  "files": [
+    {
+      "content": "/**\n * @param {number[]} nums\n * @param {number} target\n * @return {number[]}\n */\n// module.exports = function twoSum (nums, target) {\n//     // TODO: work your solution here\n//     return [];\n// }\n\n// For demonstration purposes, I've prepared a solution for you:\nmodule.exports = function(nums, target) {\n    const map = new Map();\n    for (let i = 0; i < nums.length; i++) {\n        let complement = target - nums[i];\n        if (map.has(complement)) {\n            return [map.get(complement), i]\n        }\n        map.set(nums[i], i);\n    }\n}\n",
+      "editable": true,
+      "path": "solution.js"
+    }
+  ],
+  "language": "javascript",
+  "problemId": {
+    "$oid": "5fd40dde970bbd8a64bf71d9"
+  }
+},{
+  "_id": {
+    "$oid": "5fd453908f7fbb065ff6538e"
+  },
+  "files": [
+    {
+      "content": "public class Solution {\n    public int[] twoSum(int[] nums, int target) {\n        // TODO: work your solution here\n        return new int[0];\n    }\n\n    For demonstration purposes, I've prepared a solution for you:\n    public int[] twoSum(int[] nums, int target) {\n        for (int i = 0; i < nums.length; i++) {\n           for (int j = i + 1; j < nums.length; j++) {\n               if (nums[j] == target - nums[i]) {\n                   return new int[] { i, j };\n               }\n           }\n        }\n        throw new IllegalArgumentException(\"No two sum solution\");\n    }\n}",
+      "editable": true,
+      "path": "Solution.java"
+    }
+  ],
+  "language": "java",
+  "problemId": {
+    "$oid": "5fd40dde970bbd8a64bf71d9"
+  }
+}]
