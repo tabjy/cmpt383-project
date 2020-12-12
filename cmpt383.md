@@ -1,5 +1,12 @@
 # CMPT-383 Project: Online Judge System
 
+![](https://i.imgur.com/RSEcWFA.png)
+
+- [x] In-browser code editor (powered by [monaco-editor](https://github.com/microsoft/monaco-editor))
+- [x] C, C++, JavaScript compiling and running
+- [x] Compilation and execution result sent back to contestants
+- [x] Real competitive programming problems!
+
 ## Topic idea
 
 The project tries to implement a modern online judge system for competitive programming contests and 
@@ -15,10 +22,20 @@ Contestants' performances are measured by programs' usage of CPU time and RAM. A
 all contestants who have submitted a solution for a question. Only contestants with accepted 
 solutions will enter the leader board.
 
-The system architects as follows:
+### Get Started
 
-![](https://i.imgur.com/UByQTtz.jpg)
- 
+Make sure a docker daemon (version >= 17.09.0) is running and `docker-compose` tool is available in
+`$PATH`.
+
+```
+$ git clone https://csil-git1.cs.surrey.sfu.ca/arvinx/cmpt383-project
+$ cd cmpt383-project
+$ docker-compose up
+```
+
+That's it!. Now, with your favourite browser, which is hopefully not the Internet Explorer, open
+[http://localhost:8080/](http://localhost:8080/).
+
 ## Programming Languages
 1. JavaScript
 
@@ -35,7 +52,7 @@ The system architects as follows:
     Judge server is designed as a separate process so multiple judge server can distributively share 
     the workload.
 
-3. C/C++/Go/Python...
+3. C/C++/Python...
 
     Basically any languages the online judge system supports. Currently, only C, C++, and JavaScript 
     are supported. More language compilers and runtimes will be added.
@@ -58,79 +75,8 @@ is used for communication between the application server and judge servers. Howe
 types of servers are implemented in Java, it is only counted as inter-process communication (IPC),
 not inter-language communication.
 
-## Deployment Technology
+## Design
 
-Multi-container stack deployed with `docker-compose`.
+The system architects as follows:
 
-### Get Started
-
-Make sure a docker daemon (version >= 17.09.0) is running and `docker-compose` tool is available in 
-`$PATH`.
-
-```
-$ git clone https://csil-git1.cs.surrey.sfu.ca/arvinx/cmpt383-project
-$ cd cmpt383-project
-$ docker-compose up
-```
-
-That's it!. Now, with your favourite browser, which is hopefully not the Internet Explorer, open 
-[http://localhost:8080/](http://localhost:8080/).
-
-
-## What Works
-
-![](https://i.imgur.com/frYtsGc.jpg)
-
-- [x] In-browser code editor (powered by 
-[monaco-editor](https://github.com/microsoft/monaco-editor))
-- [x] C, C++, JavaScript compiling and running
-- [x] Compilation and execution result sent back to contestants
-
-## What Does Not Yet Work
-
-- [ ] The application server and judge servers are not yet separated processes
-- [ ] There are no programming problems yet
-- [ ] Memory and CPU time limit is not yet implemented
-- [ ] Runner containers are not yet well-isolated (will look into 
-[gvisor](https://github.com/google/gvisor))
-
-## Application Server Development
-
-### Running the application in dev mode
-
-You can run your application in dev mode that enables live coding using:
-```shell script
-./mvnw compile quarkus:dev
-```
-
-### Packaging and running the application
-
-The application can be packaged using:
-```shell script
-./mvnw package
-```
-It produces the `cmpt383-project-1.0.0-SNAPSHOT-runner.jar` file in the `/target` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/lib` directory.
-
-If you want to build an _über-jar_, execute the following command:
-```shell script
-./mvnw package -Dquarkus.package.type=uber-jar
-```
-
-The application is now runnable using `java -jar target/cmpt383-project-1.0.0-SNAPSHOT-runner.jar`.
-
-### Creating a native executable
-
-You can create a native executable using: 
-```shell script
-./mvnw package -Pnative
-```
-
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using: 
-```shell script
-./mvnw package -Pnative -Dquarkus.native.container-build=true
-```
-
-You can then execute your native executable with: `./target/cmpt383-project-1.0.0-SNAPSHOT-runner`
-
-If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.html.
+![](https://i.imgur.com/UByQTtz.jpg)
