@@ -25,7 +25,7 @@ public class JavaRunStrategy extends DockerBasedRunStrategy {
 
     @Override
     public ExecResult run(Map<String, byte[]> outputFiles, String entryPoint, String[] args, byte[] stdin) throws IOException {
-        outputFiles.put("main.sh", "#!/bin/sh\njava -cp $(dirname $0) Main".getBytes(StandardCharsets.UTF_8));
+        outputFiles.put("main.sh", "#!/bin/sh\njava -cp $(dirname $0) Main \"$1\" \"$2\" \"$3\" \"$4\" \"$5\" \"$6\"".getBytes(StandardCharsets.UTF_8));
 
         return super.run(outputFiles, entryPoint, args, stdin);
     }

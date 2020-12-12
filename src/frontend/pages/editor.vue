@@ -237,7 +237,6 @@
                   <template v-if="record.id">
                     <h3>Your grade:</h3>
                     <br />
-                    <br />
                     <p>Acceptance: {{
                         `${record.acceptance.toUpperCase()} (${acceptanceToString(record.acceptance)})`
                       }}</p>

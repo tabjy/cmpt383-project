@@ -12,7 +12,7 @@ module.exports = async () => ({
         {
             in: ['4', '2, 7, 11, 15', '9'],
             out: '0, 1',
-            hidden: true
+            hidden: false
         },
         {
             in: ['3', '3, 2, 4', '6'],
@@ -27,6 +27,21 @@ module.exports = async () => ({
     ],
     templates: [
         {
+            language: 'java',
+            files: [
+                {
+                    path: 'Main.java',
+                    content: await readFile(__dirname + '/java/Main.java', 'utf-8'),
+                    editable: false
+                },
+                {
+                    path: 'Solution.java',
+                    content: await readFile(__dirname + '/java/Solution.java', 'utf-8'),
+                    editable: true
+                }
+            ]
+        },
+        {
             language: 'javascript',
             files: [
                 {
@@ -37,6 +52,21 @@ module.exports = async () => ({
                 {
                     path: 'solution.js',
                     content: await readFile(__dirname + '/javascript/solution.js', 'utf-8'),
+                    editable: true
+                }
+            ]
+        },
+        {
+            language: 'python',
+            files: [
+                {
+                    path: 'main.py',
+                    content: await readFile(__dirname + '/python/main.py', 'utf-8'),
+                    editable: false
+                },
+                {
+                    path: 'solution.py',
+                    content: await readFile(__dirname + '/python/solution.py', 'utf-8'),
                     editable: true
                 }
             ]
