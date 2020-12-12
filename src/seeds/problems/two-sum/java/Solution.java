@@ -14,6 +14,5 @@ public class Solution {
     //        }
     //     }
     //     throw new IllegalArgumentException("No two sum solution");
-    //     return new int[]{0, 1};
     // }
 }
