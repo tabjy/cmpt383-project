@@ -2,12 +2,18 @@
 
 ![](https://i.imgur.com/RSEcWFA.png)
 
-- [x] In-browser code editor (powered by [monaco-editor](https://github.com/microsoft/monaco-editor))
-- [x] C, C++, JavaScript compiling and running
-- [x] Compilation and execution result sent back to contestants
+# Features
+
+- [x] Modern full-featured in-browser code editor (powered by [monaco-editor](https://github.com/microsoft/monaco-editor))
+- [x] C, C++, Java, JavaScript, and Python code building and running
+- [x] Compilation and test case execution results sent back to contestants
+- [x] Fancy leaderboard (with avatars!) for comparing scores with your peers
+- [x] Sortable and filterable problem list to find suitable problems
+- [x] Safely sandboxed environments for executing untrusted user code
+- [x] Extensible system allowing easily add new problems to database (look in [src/seeds](src/seeds))
 - [x] Real competitive programming problems!
 
-## Topic idea
+## Project Idea
 
 The project tries to implement a modern online judge system for competitive programming contests and 
 practice. The system has a set of programming questions mainly on topics of algorithm and data 
@@ -22,7 +28,7 @@ Contestants' performances are measured by programs' usage of CPU time and RAM. A
 all contestants who have submitted a solution for a question. Only contestants with accepted 
 solutions will enter the leader board.
 
-### Get Started
+## Get Started
 
 Make sure a docker daemon (version >= 17.09.0) is running and `docker-compose` tool is available in
 `$PATH`.
