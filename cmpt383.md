@@ -2,6 +2,8 @@
 
 ![](https://i.imgur.com/RSEcWFA.png)
 
+If you are doing a similar assignment for academic purposes and studying my source code, please be sure to acknowledge. This is most likely required to protect your academic integrity. For all other situations, MIT license applies.
+
 # Features
 
 - [x] Modern full-featured in-browser code editor (powered by [monaco-editor](https://github.com/microsoft/monaco-editor))
